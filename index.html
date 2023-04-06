@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <script src="grid.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page-timeline">
+    <div id="topBar">
+      <a href="#about" id="link-about"> /about </a>
+      <a id="link-home" href="#home">
+        <svg height="1rem" viewBox="0 96 960 960" width="48">
+          <path d="M160 936V456l320-240 320 240v480H560V656H400v280H160Z" />
+        </svg>
+      </a>
+    </div>
+
+    <div id="container" class="gridded">
+      <div id="eraMenu">
+        <a href="#timeline" class="yellowBacked">
+          1824 &ndash; 1950:<br />Darkroom &amp; film
+        </a>
+        <a href="#timeline" class="orangeBacked">
+          1950 &ndash; 2014:<br />Computers &amp; Photoshop
+        </a>
+        <a href="#timeline" class="magentaBacked">
+          2014 &ndash; 2023:<br />Generative AI
+        </a>
+      </div>
+
+      <div id="page-about">
+        <div class="title orangeBacked box">
+          How did we get here? Image manipulation, from darkroom to AI
+        </div>
+        <div class="box yellowBacked" style="margin-left: 12rem; width: 18rem">
+          <h2>About</h2>
+          <p>
+            The History of Photo Manipulation aims to explore the evolution of
+            photo manipulation from its earliest days to the present, examining
+            the ways in which photographic images have been altered, distorted,
+            and transformed over time. Although we've encountered many examples
+            of artistic and otherwise harmless examples of photo manipulation,
+            the purpose of this timeline is to document purposely misleading
+            photographs, as a way to explore contemporary concerns about dis and
+            misinformation.
+          </p>
+          <p>
+            Ultimately, the History of Photo Manipulation seeks to shed light on
+            the complex and fascinating history of altered photographic, while
+            also exploring the important ethical and social questions that arise
+            in a world where images can be easily altered and disseminated with
+            just a few clicks of a button.
+          </p>
+
+          <p>Questions? Reach out to info@manipulation.photos</p>
+
+          <h3>Credits</h3>
+          <h3>Logos</h3>
+        </div>
+      </div>
+
+      <div id="page-timeline">
+        <div class="title box">
+          How did we get here? Image manipulation, from darkroom to AI
+        </div>
+        <div id="context">
+          <div id="legend" class="box"></div>
+          <div id="icon1" class="box"></div>
+          <div id="icon2" class="box"></div>
+          <div id="year" class="box yellowBacked"></div>
+        </div>
+        <div id="imageContainer" class="box yellowBacked">
+          <div id="imageGrid" class="box">
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+            <div class="imageThumb"></div>
+          </div>
+        </div>
+        <div id="contentCol" class="box">
+          <div id="events" v-scope>
+            <ol>
+              <li
+                v-for="(event, index) in events"
+                :id="`event-${index}`"
+                class="event"
+              >
+                <div class="eventImage">
+                  <img :src="event.image_url" />
+                </div>
+                <div class="eventData">
+                  <div class="eventTitle">{{event.title}}</div>
+                  <p class="eventText">{{event.text}}</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-home">
+        <div
+          class="box"
+          style="
+            width: calc(24rem + 2px);
+            margin-left: 1rem;
+            margin-top: 1rem;
+            height: calc(5rem + 1px);
+          "
+        >
+          <h1>How did we get here?</h1>
+        </div>
+        <div
+          class="box"
+          style="
+            width: calc(28rem + 2px);
+            margin-left: 2rem;
+            margin-top: calc(1rem - 1px);
+            height: calc(3rem + 1px);
+          "
+        >
+          <h2>Image manipulation, from darkroom to AI</h2>
+        </div>
+        <div
+          class="box"
+          style="
+            width: calc(21rem + 2px);
+            margin-left: 8rem;
+            margin-top: calc(2rem - 1px);
+            height: calc(4rem + 1px);
+          "
+        >
+          <p>
+            We've heard it before. Truth is dead! You can't trust images
+            anymore! But were we ever able to trust them? How did we get from
+            film cameras to computers making photographs without cameras?
+          </p>
+        </div>
+
+        <div
+          class="box"
+          style="
+            width: calc(21rem + 2px);
+            margin-left: 4rem;
+            margin-top: calc(4rem - 1px);
+            height: calc(26rem + 1px);
+          "
+        >
+          <p>
+            Photo manipulation is not a new phenomenon. It has been around for
+            almost as long as photography itself. From the earliest days of
+            portrait painting and sculpting, people have sought to enhance or
+            modify representations. Darkroom techniques of photo manipulation
+            were used since the mid-1800s: dodging, burning, overexposing,
+            painting over film in the darkroom. A hundred years later, digital
+            photo-editing tools made it easier to edit images, enhance one's own
+            appearance, present false or exaggerated images of political
+            enemies, or edit historical records and perpetuate certain
+            narratives. The rise of AI has compounded this obsession with
+            editing images, fostering deepfakes, beauty filters, and other
+            contemporary trends. AI and contemporary photo manipulation rest on
+            a centuries old-legacy of deception, and more importantly, a human
+            fascination with fiction, with building new worlds and illustrating
+            them, with discovering how far we can push a lie.
+          </p>
+          <p>
+            Fiction presented as fact is a powerful storytelling device. Images
+            help tell these stories, and photography, in particular, has a
+            unique aura of reliability and truth. Photography's ability to
+            "capture reality" has imbued photos and videos with a promise of
+            authenticity that is hard to undo. Can we undo it? Should we?
+          </p>
+          <p>
+            When the first photograph was taken, no other medium had come
+            remotely close to a sense of conexion between the real world and its
+            representation. Radio didn't exist, the telephone didn't exist.
+            People couldn't see or hear each other without beying in the same
+            room. And then there was photography. Photography made capturing the
+            world possible, and it gave professional deceivers a tool to tell
+            stories. The allure of deception and the desire to wield its power
+            seeped into our technological innovations. So much, so that the
+            enchanting metaphors used to describe these tools &mdash; AI now,
+            photography in the 1800s, and Photoshop in the 80s &mdash; often
+            involve the word “magic.” This is the history of that magic; the
+            history of human creativity through photographs, the technologies
+            that led us here, and the precedents that will lead us to the
+            future. This is the history of images as misrepresentation.
+          </p>
+          <p>Everything started in the darkroom.</p>
+        </div>
+
+        <div
+          class="box"
+          style="
+            width: calc(28rem + 2px);
+            margin-left: 2rem;
+            margin-top: calc(2rem - 1px);
+            margin-bottom: 1rem;
+            height: calc(14rem + 1px);
+          "
+        >
+          <img
+            src="image 8.png"
+            style="
+              display: inline-block;
+              width: 40%;
+              vertical-align: top;
+              margin-top: 1rem;
+            "
+          />
+          <p
+            style="
+              display: inline-block;
+              width: 48%;
+              border-left: 2px solid black;
+              padding: 0.5rem 0 0.5rem 1rem;
+              margin-left: 1rem;
+            "
+          >
+            Dating back to the 1500s, and maybe earlier, the "camera obscura"
+            was the ancestor of all photographic and cinematic technology. A
+            camera obscura is a dark room with a single, small opening in a wall
+            to admit light. The opening acts as a projection tool, creating an
+            inverted image of the outside world on the opposite wall. The main
+            technical gap between the camera obscura and physical photographs
+            was fixing this projected image onto a surface. It took centuries,
+            but by the late 1700s and early 1800s, many were experimenting with
+            chemical techniques that would make capturing the image possible.
+          </p>
+          <a href="#timeline" id="next" class="box">
+            <svg>
+              <defs>
+                <marker
+                  id="head"
+                  orient="auto"
+                  markerWidth="3"
+                  markerHeight="4"
+                  refX="0.1"
+                  refY="2"
+                >
+                  <path d="M0,0 V4 L2,2 Z" fill="black" />
+                </marker>
+              </defs>
+
+              <path
+                id="arrow-line"
+                marker-end="url(#head)"
+                fill="none"
+                stroke="black"
+                stroke-width="3"
+                d="M15,35, 50 35"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { createApp } from "https://unpkg.com/petite-vue?module";
+      const sheetsURL =
+        "https://docs.google.com/spreadsheets/d/1fpHxE_ketMRAzXCKKmMwXxHpvdlT8GNdPWeugIUZ0D0/gviz/tq?tqx=out:csv";
+
+      function parseCSV(str) {
+        var arr = [];
+        var quote = false;
+        let c, col;
+        for (let row = (col = c = 0); c < str.length; c++) {
+          var cc = str[c],
+            nc = str[c + 1];
+          arr[row] = arr[row] || [];
+          arr[row][col] = arr[row][col] || "";
+
+          if (cc == '"' && quote && nc == '"') {
+            arr[row][col] += cc;
+            ++c;
+            continue;
+          }
+          if (cc == '"') {
+            quote = !quote;
+            continue;
+          }
+          if (cc == "," && !quote) {
+            ++col;
+            continue;
+          }
+          if (cc == "\r" && nc == "\n" && !quote) {
+            ++row;
+            col = 0;
+            ++c;
+            continue;
+          }
+          if (cc == "\n" && !quote) {
+            ++row;
+            col = 0;
+            continue;
+          }
+          if (cc == "\r" && !quote) {
+            ++row;
+            col = 0;
+            continue;
+          }
+
+          arr[row][col] += cc;
+        }
+        return arr;
+      }
+
+      function parseCSVtoObjects(csvString, /* optional */ columnNames) {
+        var csvRows = parseCSV(csvString);
+
+        var firstDataRow = 0;
+        if (!columnNames) {
+          columnNames = csvRows[0];
+          firstDataRow = 1;
+        }
+
+        var result = [];
+        for (var i = firstDataRow, n = csvRows.length; i < n; i++) {
+          var rowObject = {};
+          var row = csvRows[i];
+          for (
+            var j = 0, m = Math.min(row.length, columnNames.length);
+            j < m;
+            j++
+          ) {
+            var columnName = columnNames[j];
+            var columnValue = row[j];
+            rowObject[columnName] = columnValue;
+          }
+          result.push(rowObject);
+        }
+        return result;
+      }
+      window.onload = (event) => {
+        fetch(sheetsURL)
+          .then((response) => response.text())
+          .then((text) => {
+            let events = parseCSVtoObjects(text);
+            console.log(events);
+            createApp({
+              events: events,
+            }).mount("#events");
+            gridify(false);
+          });
+      };
+      function setPage() {
+        const newPage = location.hash.substr(1) || "home";
+        document.querySelector("body").setAttribute("class", `page-${newPage}`);
+        scrollTo(0, 0);
+        gridify();
+      }
+      addEventListener("hashchange", setPage);
+      setPage();
+    </script>
+  </body>
+</html>

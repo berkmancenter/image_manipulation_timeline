@@ -1,0 +1,241 @@
+@font-face {
+    font-family: 'gloockregular';
+    src: url('gloock-regular-webfont.woff2') format('woff2'),
+         url('gloock-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+:root {
+  --yellow: #fef287;
+  --orange: #ffcd93;
+  --magenta: #f5b7ff;
+  font-size: 24px;
+}
+h1, h2, h3, h4, h5, h6, #link-about, .title {
+  font-family: 'gloockregular';
+}
+.page-about #eraMenu{
+  display: none;
+}
+.page-about #topBar{
+  background-color: var(--magenta);
+  /*border: 2px solid black;
+  border-width: 2px 0;
+  box-sizing: border-box;
+  */
+}
+.page-home #page-about {
+  display: none;
+}
+.page-home #page-timeline {
+  display: none;
+}
+.page-about #page-home {
+  display: none;
+}
+.page-about #page-timeline {
+  display: none;
+}
+.page-timeline #page-home {
+  display: none;
+}
+.page-timeline #page-about {
+  display: none;
+}
+html,
+body {
+  height: 100%;
+  font-family: "Times New Roman", "serif";
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-size: 14px;
+  line-height: 18px;
+}
+button {
+  font-family: "Times New Roman", "serif";
+}
+#topBar {
+  height: 2rem;
+  display: flex;
+  padding: 0 2rem;
+  justify-content: space-between;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+
+#topBar > * {
+  margin-top: 0.6rem;
+}
+#container {
+  margin: 0 3rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 770px;
+}
+#eraMenu {
+  position: absolute;
+  right: calc(-3rem + 1px);
+  width: 5rem;
+  z-index: 2;
+}
+#eraMenu .showing {
+  width: 6rem;
+  right: 1rem;
+}
+#eraMenu a {
+  display: block;
+  border: 2px solid black;
+  border-radius: 0;
+  color: black;
+  position: relative;
+  width: 100%;
+  font-size: 14px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  text-align: left;
+  padding: 0.3rem 0.2rem;
+  height: calc(2rem + 1px);
+}
+#eraMenu a:nth-child(2) {
+  bottom: 2px;
+  height: calc(2rem + 2px);
+}
+#eraMenu a:nth-child(3) {
+  bottom: 4px;
+  height: calc(2rem + 2px);
+}
+.gridded {
+  position: relative;
+}
+.box {
+  background-color: white;
+  border: 2px solid black;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+.yellowBacked {
+  background-color: var(--yellow);
+}
+.orangeBacked {
+  background-color: var(--orange);
+}
+.magentaBacked {
+  background-color: var(--magenta);
+}
+#next {
+  width: calc(3rem + 2px);
+  height: calc(3rem + 1px);
+  padding: 0;
+  position: absolute;
+  right: calc(-1rem - 1px);
+  bottom: 2rem;
+  overflow: hidden;
+}
+#next svg {
+  width: 3rem;
+  height: 3rem;
+}
+
+h1 {
+  font-size: 2.0rem;
+  text-align: center;
+  margin-top: 1.8rem;
+}
+h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 0.7rem;
+}
+p:first-child {
+  margin-top: 0.2rem;
+}
+.title {
+  position: absolute;
+  top: 0;
+  width: 770px;
+  height: calc(1rem + 2px);
+  padding: 3px 0.5rem;
+  font-size: 0.6rem;
+}
+#contentCol {
+  width: calc(18rem + 2px);
+  margin-left: 12rem;
+  position: relative;
+  top: calc(-12rem - 0px);
+}
+#contentCol img {
+  max-width: 5rem;
+}
+#events ol {
+    list-style: none;
+    padding: 0;
+}
+.event {
+  margin: 3rem 1rem;
+}
+.eventImage {
+  margin-bottom: 0.5rem;
+}
+#context {
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    width: 12rem;
+    height: 2rem;
+}
+
+#context .box {
+    padding: 0;
+    border-width: 1px;
+}
+#legend {
+    grid-column: 1/8;
+    grid-row: 1/3;
+}
+#icon1 {
+    grid-column: 8;
+    grid-row: 1;
+}
+#icon2 {
+    grid-column: 8;
+    grid-row: 2;
+}
+#year {
+    grid-column: 9/12;
+    grid-row: 1/3;
+}
+#imageContainer {
+    height: calc(10rem + 1px);
+    width: calc(12rem + 1px);
+    margin: 0;
+    padding: 1rem;
+    border-right-width: 1px;
+}
+#imageGrid {
+    height: 8rem;
+    width: 10rem;
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 0;
+    padding: 0;
+    margin: 0;
+}
+.imageThumb {
+    width: 1fr;
+    height: 1fr;
+    border: 1px solid black;
+}
