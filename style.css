@@ -1,3 +1,13 @@
+/** Variables **/
+:root {
+  --yellow: #fef287;
+  --orange: #ffcd93;
+  --magenta: #f5b7ff;
+  font-size: 24px;
+}
+/** End Variables **/
+
+/** Fonts **/
 @font-face {
     font-family: 'gloockregular';
     src: url('gloock-regular-webfont.woff2') format('woff2'),
@@ -6,25 +16,58 @@
     font-style: normal;
 
 }
-:root {
-  --yellow: #fef287;
-  --orange: #ffcd93;
-  --magenta: #f5b7ff;
-  font-size: 24px;
-}
 h1, h2, h3, h4, h5, h6, #link-about, .title {
   font-family: 'gloockregular';
 }
-.page-about #eraMenu{
-  display: none;
+/** End Fonts **/
+
+/** Colors **/
+.yellowBacked {
+  background-color: var(--yellow) !important;
 }
-.page-about #topBar{
-  background-color: var(--magenta);
-  /*border: 2px solid black;
-  border-width: 2px 0;
-  box-sizing: border-box;
-  */
+.orangeBacked {
+  background-color: var(--orange) !important;
 }
+.magentaBacked {
+  background-color: var(--magenta) !important;
+}
+/** End Colors **/
+
+/** General elements **/
+html,
+body {
+  height: 100%;
+  font-family: "Times New Roman", "serif";
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-size: 14px;
+  line-height: 18px;
+}
+button {
+  font-family: "Times New Roman", "serif";
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+h1 {
+  font-size: 2.0rem;
+  text-align: center;
+  margin-top: 1.8rem;
+}
+h2 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 0.7rem;
+}
+p:first-child {
+  margin-top: 0.2rem;
+}
+/** End General elements **/
+
+/** Paging **/
 .page-home #page-about {
   display: none;
 }
@@ -43,50 +86,65 @@ h1, h2, h3, h4, h5, h6, #link-about, .title {
 .page-timeline #page-about {
   display: none;
 }
+/** End Paging **/
+
+/** Page-specific changes **/
+.page-about #eraMenu{
+  display: none;
+}
+.page-about #topBar{
+  background-color: var(--magenta);
+  /*border: 2px solid black;
+  border-width: 2px 0;
+  box-sizing: border-box;
+  */
+}
 .page-timeline {
   overflow-y: hidden;
 }
-.page-timeline #contentCol {
+.page-timeline #timeline {
   height: 100vh;
   overflow-y: scroll;
 }
-html,
-body {
-  height: 100%;
-  font-family: "Times New Roman", "serif";
-  margin: 0;
-  padding: 0;
+.page-home #container {
+  padding-top: 1rem;
 }
-body {
-  font-size: 14px;
-  line-height: 18px;
-}
-button {
-  font-family: "Times New Roman", "serif";
-}
+/** End Page-specific changes **/
+
+
+/** Top bar **/
 #topBar {
   height: 2rem;
   display: flex;
   padding: 0 2rem;
   justify-content: space-between;
 }
-a {
-  color: black;
-  text-decoration: none;
-}
-
 #topBar > * {
   margin-top: 0.6rem;
 }
+/** End Top bar **/
+
+/** Containers **/
 #container {
   margin: 0 3rem;
   padding-top: 0;
   padding-bottom: 1rem;
   width: 770px;
+  min-height: calc(100vh - 3rem);
 }
+.box {
+  background-color: white;
+  border: 2px solid black;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+}
+/** End Containers **/
+
+/** Era menu **/
 #eraMenu {
   position: absolute;
   right: calc(-3rem + 1px);
+  top: 0;
   width: 5rem;
   z-index: 2;
 }
@@ -116,75 +174,37 @@ a {
   bottom: 4px;
   height: calc(2rem + 2px);
 }
-.gridded {
-  position: relative;
+.activeEra1 #eraMenu a:first-child {
+  width: 5.5rem;
+  right: 0.5rem;
 }
-.box {
-  background-color: white;
-  border: 2px solid black;
-  padding: 0.5rem 1rem;
-  box-sizing: border-box;
+.activeEra2 #eraMenu a:nth-child(2) {
+  width: 5.5rem;
+  right: 0.5rem;
 }
-canvas {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
+.activeEra3 #eraMenu a:nth-child(3) {
+  width: 5.5rem;
+  right: 0.5rem;
 }
-.yellowBacked {
-  background-color: var(--yellow);
-}
-.orangeBacked {
-  background-color: var(--orange);
-}
-.magentaBacked {
-  background-color: var(--magenta);
-}
-#next {
-  width: calc(3rem + 2px);
-  height: calc(3rem + 1px);
-  padding: 0;
-  position: absolute;
-  right: calc(-1rem - 1px);
-  bottom: 2rem;
-  overflow: hidden;
-}
-#next svg {
-  width: 3rem;
-  height: 3rem;
-}
+/** End Era menu **/
 
-h1 {
-  font-size: 2.0rem;
-  text-align: center;
-  margin-top: 1.8rem;
-}
-h2 {
-  font-size: 1.2rem;
-  text-align: center;
-  margin-top: 0.7rem;
-}
-p:first-child {
-  margin-top: 0.2rem;
-}
-.title {
-  position: absolute;
-  top: 0;
-  width: 770px;
-  height: calc(1rem + 2px);
-  padding: 3px 0.5rem;
-  font-size: 0.6rem;
-}
-#contentCol {
+/** Timeline of events **/
+#timeline {
   width: calc(16rem + 2px);
   margin-left: 14rem;
   position: relative;
   top: calc(-22rem - 2px);
   padding: 1rem;
+  scrollbar-width: none;
 }
-#contentCol img {
+#timeline img {
   max-width: 14rem;
 }
+
+.era {
+  padding-top: 1rem;
+}
+
 #events {
   padding-bottom: 8rem;
 }
@@ -202,6 +222,9 @@ p:first-child {
   font-family: "gloockregular", serif;
   font-size: 0.7rem;
 }
+/** End Timeline of events **/
+
+/** Event context **/
 #context {
     display: grid;
     gap: 0;
@@ -235,40 +258,15 @@ p:first-child {
 .activeEra1 #year {
   background-color: var(--yellow);
 }
-.activeEra1 #eraMenu a:first-child {
-  width: 5.5rem;
-  right: 0.5rem;
-}
 .activeEra2 #year {
   background-color: var(--orange);
-}
-.activeEra2 #eraMenu a:nth-child(2) {
-  width: 5.5rem;
-  right: 0.5rem;
 }
 .activeEra3 #year {
   background-color: var(--magenta);
 }
-.activeEra3 #eraMenu a:nth-child(3) {
-  width: 5.5rem;
-  right: 0.5rem;
-}
-#era2 {
-  padding-top: 0;
-  height: 6rem;
-  border-top-width: 0;
-}
-#era2 .box {
-  border-bottom-width: 0;
-}
-#era3 {
-  padding-top: 0;
-  padding-bottom: 0.5rem;
-  border-top-width: 0;
-}
-#era2 .box, #era3 .box {
-  border-top-width: 0;
-}
+/** End Event context **/
+
+/** Image grid nav **/
 .imageContainer {
     height: calc(6.5rem + 1px);
     width: calc(14rem + 1px);
@@ -304,5 +302,59 @@ p:first-child {
 }
 .imageThumb:hover img, .imageThumb.showing img{
   filter: grayscale(0%);
-  opacity: 1.0;
+  opacity: 1.0 !important;
+}
+
+#era2Nav {
+  padding-top: 0;
+  height: 6rem;
+  border-top-width: 0;
+}
+#era2Nav .box {
+  border-bottom-width: 0;
+}
+
+#era3Nav {
+  padding-top: 0;
+  padding-bottom: 0.5rem;
+  border-top-width: 0;
+}
+#era2Nav .box, #era3Nav .box {
+  border-top-width: 0;
+}
+
+/** End Image grid nav **/
+
+
+/** To be organized **/
+.gridded {
+  position: relative;
+}
+canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+#startTimeline {
+  width: calc(3rem + 2px);
+  height: calc(3rem + 1px);
+  padding: 0;
+  position: absolute;
+  right: calc(-1rem - 1px);
+  bottom: 2rem;
+  overflow: hidden;
+}
+#startTimeline svg {
+  width: 3rem;
+  height: 3rem;
+}
+
+.title {
+  width: 770px;
+  height: calc(1rem + 2px);
+  padding: 3px 0.5rem;
+  font-size: 0.6rem;
+  margin-bottom: calc(1rem - 1px);
 }

@@ -9,19 +9,43 @@
     <script src="utils.js"></script>
     <script>
       let controller;
-      const scenes = { 1: [], 2: [], 3: [] };
-      function setPage() {
-        const newPage = location.hash.substr(1) || "home";
+      const eventScenes = {};
+      const eraScenes = {};
+      function currentPage() {
+        return location.hash.substr(1) || "home";
+      }
+      function setPage(newPage) {
+        if (newPage) {
+          location.hash = newPage;
+        } else {
+          newPage = currentPage();
+        }
         document.querySelector("body").setAttribute("class", `page-${newPage}`);
         scrollTo(0, 0);
         gridify();
       }
-      function moveTo(scene) {
-        controller.scrollTo(scene);
+      function setEraDurations() {
+        for (era in eraScenes) {
+          el = elementFromEra(era);
+          eraScenes[era].duration(el.clientHeight + 24 * 3);
+        }
       }
-      function setEventActive(el, event, scene) {
+      function jumpToEvent(event) {
+        /* Move a little beyond the top of the scene because 
+        otherwise the "enter" event doesn't fire.*/
+        controller.scrollTo(eventScenes[event.id].scrollOffset() + 10);
+      }
+      function elementFromEvent(event) {
+        return document.getElementById(`event${event.id}`);
+      }
+      function elementFromEra(era) {
+        return document.getElementById(`era${era}`);
+      }
+      function setEventActive(event) {
+        const el = elementFromEvent(event);
         document.getElementById("year").innerHTML = event.year;
-        scene.duration(el.clientHeight + 24 * 3);
+        eventScenes[event.id].duration(el.clientHeight + 24 * 3);
+        setEraDurations();
       }
       function setEraActive(era) {
         const classes = document.getElementById("container").classList;
@@ -30,25 +54,76 @@
         );
         classes.add(`activeEra${era}`);
       }
-      function setupScrolling(el, event, era) {
+      function jumpToEra(era, e) {
+        if (e) {
+          e.preventDefault();
+        }
+        if (currentPage() === "timeline") {
+          controller.scrollTo(eraScenes[era].scrollOffset() + 10);
+        } else {
+          /* The whole thing rerenders when the page changes, 
+          and we want to wait for that to happen before we scroll.
+          This does that.*/
+          eraScenes[era].on("shift", () => {
+            controller.scrollTo(eraScenes[era].scrollOffset() + 10);
+            eraScenes[era].off("shift");
+          });
+          setPage("timeline");
+        }
+        setEraActive(era);
+      }
+      function setupEraScrolling(era) {
+        const el = document.getElementById(`era${era.era}`);
+        scene = new ScrollMagic.Scene({
+          triggerElement: el,
+          offset: -20,
+          triggerHook: 0.0,
+        });
+        eraScenes[era.era] = scene;
+        scene
+          //.addIndicators()
+          .on("enter", () => {
+            if (el.clientHeight > 0) {
+              setEraActive(era.era);
+            }
+          })
+          .addTo(controller);
+      }
+      function setupEventScrolling(event, era) {
+        const el = elementFromEvent(event);
         const scene = new ScrollMagic.Scene({
           triggerElement: el,
           offset: -20,
           triggerHook: 0.15,
         });
-        scenes[era].push(scene);
+        eventScenes[event.id] = scene;
         scene
-          .addIndicators()
+          //.addIndicators()
           .setClassToggle(`#thumb-${el.id}`, "showing")
           .on("enter", () => {
-            setEventActive(el, event, scene);
-            setEraActive(era);
+            /* Sometimes this event runs even though the events are hidden.
+            Just don't do that. */
+            if (el.clientHeight > 0) {
+              setEventActive(event);
+            }
+          })
+          .on("leave", () => {
+            document.getElementById("year").innerHTML = "";
           })
           .addTo(controller);
       }
+      addEventListener("wheel", (e) => {
+        if (currentPage() !== "timeline") {
+          return;
+        }
+        document
+          .getElementById("timeline")
+          .scrollBy({ top: e.deltaY, behavior: "auto" });
+      });
     </script>
   </head>
-  <body class="page-timeline">
+
+  <body class="page-home">
     <div id="topBar">
       <a href="#about" id="link-about"> /about </a>
       <a id="link-home" href="#home">
@@ -60,7 +135,12 @@
 
     <div id="container" class="gridded activeEra1">
       <div id="eraMenu" v-scope>
-        <a href="#timeline" v-for="era in eras" :class="`${era.color}Backed`">
+        <a
+          href="#timeline"
+          v-for="era in eras"
+          :class="`${era.color}Backed`"
+          @click="jumpToEra(era.era, $event)"
+        >
           {{era.first_year}} &ndash; {{era.last_year}}:<br />
           {{era.slug}}
         </a>
@@ -90,36 +170,38 @@
 
           <div
             v-for="era in eras"
-            :id="`era${era.era}`"
+            :id="`era${era.era}Nav`"
             :class="['imageContainer','box',`${era.color}Backed`]"
           >
             <div class="imageGrid box">
               <div
-                v-for="i in 18"
+                v-for="(event, i) in eraEvents(era.era)"
                 class="imageThumb"
-                :id="`thumb-era${era.era}-event${i}`"
-                @click="moveTo(scenes[era.era][i - 1])"
+                :id="`thumb-event${event.id}`"
+                @click="jumpToEvent(event)"
               >
-                <img
-                  v-if="i < eraEvents(era.era).length + 1"
-                  :src="eraEvents(era.era)[i - 1].image_url"
-                />
+                <img :src="event.image_url" />
               </div>
             </div>
           </div>
         </div>
 
-        <div id="contentCol" class="box">
+        <div id="timeline" class="box">
           <div id="events" v-scope>
-            <div v-for="era in eras">
+            <div
+              v-for="era in eras"
+              class="era"
+              :id="`era${era.era}`"
+              @vue:mounted="setupEraScrolling(era)"
+            >
               <h4>PART {{era.era}}</h4>
               <h3>{{era.title}}</h3>
               <ol>
                 <li
-                  v-for="(event, index) in eraEvents(era.era)"
-                  :id="`era${era.era}-event${index + 1}`"
+                  v-for="event in eraEvents(era.era)"
+                  :id="`event${event.id}`"
                   class="event"
-                  @vue:mounted="setupScrolling($el, event, era.era)"
+                  @vue:mounted="setupEventScrolling(event, era.era)"
                 >
                   <div class="eventImage">
                     <img :src="event.image_url" />
@@ -141,7 +223,7 @@
           style="
             width: calc(24rem + 2px);
             margin-left: 1rem;
-            margin-top: 1rem;
+            margin-top: 0rem;
             height: calc(5rem + 1px);
           "
         >
@@ -212,7 +294,7 @@
             {{s.example}}
           </p>
 
-          <a href="#timeline" id="next" class="box">
+          <a href="#timeline" id="startTimeline" class="box">
             <svg>
               <defs>
                 <marker
@@ -246,7 +328,10 @@
 
       function populateApp(timeline, eras, strings) {
         eras = parseCSVtoObjects(eras);
-        let events = parseCSVtoObjects(timeline);
+        let events = parseCSVtoObjects(timeline).map((e, i) => {
+          e.id = i;
+          return e;
+        });
         strings = Object.fromEntries(
           parseCSVtoObjects(strings).map((r) => [r.name, r.text])
         );
@@ -254,7 +339,7 @@
         console.log(eras);
 
         controller = new ScrollMagic.Controller({
-          container: "#contentCol",
+          container: "#timeline",
         });
 
         createApp({
@@ -285,7 +370,7 @@
           },
         }).mount("#nav");
         gridify(false);
-        addEventListener("hashchange", setPage);
+        addEventListener("hashchange", () => setPage());
         setPage();
       }
 
