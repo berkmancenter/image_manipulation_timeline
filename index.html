@@ -11,6 +11,7 @@
       let controller;
       const eventScenes = {};
       const eraScenes = {};
+      let yearRange = [];
       function currentPage() {
         return location.hash.substr(1) || "home";
       }
@@ -30,6 +31,12 @@
           eraScenes[era].duration(el.clientHeight + 24 * 3);
         }
       }
+      function erasToTimelineHeights(eras) {
+        return eras.map((e) => [
+          yearToPct(e.first_year),
+          yearToPct(e.last_year),
+        ]);
+      }
       function jumpToEvent(event) {
         /* Move a little beyond the top of the scene because 
         otherwise the "enter" event doesn't fire.*/
@@ -41,11 +48,12 @@
       function elementFromEra(era) {
         return document.getElementById(`era${era}`);
       }
-      function setEventActive(event) {
-        const el = elementFromEvent(event);
-        document.getElementById("year").innerHTML = event.year;
-        eventScenes[event.id].duration(el.clientHeight + 24 * 3);
-        setEraDurations();
+      function yearToPct(year) {
+        year = parseInt(year);
+        if (year === yearRange[1]) {
+          return 1.0;
+        }
+        return (year - yearRange[0]) / (yearRange[1] - yearRange[0]);
       }
       function setEraActive(era) {
         const classes = document.getElementById("container").classList;
@@ -81,7 +89,7 @@
         });
         eraScenes[era.era] = scene;
         scene
-          //.addIndicators()
+          .addIndicators()
           .on("enter", () => {
             if (el.clientHeight > 0) {
               setEraActive(era.era);
@@ -89,7 +97,7 @@
           })
           .addTo(controller);
       }
-      function setupEventScrolling(event, era) {
+      function setupEventScrolling(event, onEnter, onLeave) {
         const el = elementFromEvent(event);
         const scene = new ScrollMagic.Scene({
           triggerElement: el,
@@ -98,18 +106,13 @@
         });
         eventScenes[event.id] = scene;
         scene
-          //.addIndicators()
-          .setClassToggle(`#thumb-${el.id}`, "showing")
+          .addIndicators()
           .on("enter", () => {
-            /* Sometimes this event runs even though the events are hidden.
-            Just don't do that. */
             if (el.clientHeight > 0) {
-              setEventActive(event);
+              onEnter(event, el);
             }
           })
-          .on("leave", () => {
-            document.getElementById("year").innerHTML = "";
-          })
+          .on("leave", onLeave)
           .addTo(controller);
       }
       /*
@@ -135,8 +138,27 @@
       </a>
     </div>
 
-    <div id="container" class="gridded activeEra1">
-      <div id="eraMenu" v-scope>
+    <div id="container" class="gridded activeEra1" v-scope>
+      <div id="eraTimeline">
+        <div
+          v-for="era in eras"
+          :class="['box', `${era.color}Backed`]"
+          id="`era${era.era}Box`"
+          :style="{height: `${era.height * 100}%`}"
+        ></div>
+        <div
+          id="year"
+          class="box"
+          :style="{
+        top: `clamp(0vh, calc(${
+          yearToPct(state.currentEvent.year) * 100
+        }vh - 1.5rem), calc(100vh - 5rem))`}"
+        >
+          {{state.currentEvent.year}}
+        </div>
+      </div>
+
+      <div id="eraMenu" style="display: none">
         <a
           href="#timeline"
           v-for="era in eras"
@@ -148,7 +170,7 @@
         </a>
       </div>
 
-      <div id="page-about" v-scope>
+      <div id="page-about">
         <div class="title orangeBacked box">
           How did we get here? Image manipulation, from darkroom to AI
         </div>
@@ -160,14 +182,13 @@
       </div>
 
       <div id="page-timeline">
-        <div id="nav" v-scope>
+        <div id="nav">
           <div id="context">
             <div id="legend" class="box">
               <div class="box">Legend entry 1</div>
               <div class="box">Legend entry 2</div>
               <div class="box">Legend entry 3</div>
             </div>
-            <div id="year" class="box"></div>
           </div>
 
           <div
@@ -178,7 +199,7 @@
             <div class="imageGrid box">
               <div
                 v-for="(event, i) in eraEvents(era.era)"
-                class="imageThumb"
+                :class="['imageThumb', { showing: event.id === state.currentEvent.id}]"
                 :id="`thumb-event${event.id}`"
                 @click="jumpToEvent(event)"
               >
@@ -189,7 +210,7 @@
         </div>
 
         <div id="timeline" class="box">
-          <div id="events" v-scope>
+          <div id="events">
             <div
               v-for="era in eras"
               class="era"
@@ -203,7 +224,7 @@
                   v-for="event in eraEvents(era.era)"
                   :id="`event${event.id}`"
                   class="event"
-                  @vue:mounted="setupEventScrolling(event, era.era)"
+                  @vue:mounted="setupEvent(event)"
                 >
                   <div class="eventImage">
                     <img :src="event.image_url" />
@@ -219,7 +240,7 @@
         </div>
       </div>
 
-      <div id="page-home" v-scope>
+      <div id="page-home">
         <div
           class="box"
           style="
@@ -326,10 +347,26 @@
     </div>
 
     <script type="module">
-      import { createApp } from "https://unpkg.com/petite-vue?module";
+      import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+      const state = reactive({
+        currentEvent: {},
+        setCurrentEvent: function (event) {
+          this.currentEvent = event;
+        },
+      });
 
       function populateApp(timeline, eras, strings) {
         eras = parseCSVtoObjects(eras);
+        yearRange = [
+          parseInt(eras[0].first_year),
+          parseInt(eras[eras.length - 1].last_year),
+        ];
+        const heights = erasToTimelineHeights(eras);
+        let heightSoFar = 0;
+        eras.forEach((e, i) => {
+          e.height = heights[i][1] - heightSoFar;
+          heightSoFar = heights[i][1];
+        });
         let events = parseCSVtoObjects(timeline).map((e, i) => {
           e.id = i;
           return e;
@@ -345,32 +382,25 @@
         });
 
         createApp({
+          state: state,
           events: events,
           eras: eras,
+          s: strings,
           eraEvents(i) {
             return this.events.filter((e) => e.era === i);
           },
-        }).mount("#events");
-
-        createApp({
-          s: strings,
-        }).mount("#page-home");
-
-        createApp({
-          s: strings,
-        }).mount("#page-about");
-
-        createApp({
-          eras: eras,
-        }).mount("#eraMenu");
-
-        createApp({
-          events: events,
-          eras: eras,
-          eraEvents(i) {
-            return this.events.filter((e) => e.era === i);
+          setupEvent(event) {
+            setupEventScrolling(event, this.activateEvent);
           },
-        }).mount("#nav");
+          activateEvent(event, el) {
+            this.state.setCurrentEvent(event);
+            /* Sometimes this event runs even though the events are hidden.
+            Just don't do that. */
+            eventScenes[event.id].duration(el.clientHeight + 24 * 3);
+            setEraDurations();
+          },
+        }).mount("#container");
+
         gridify(false);
         addEventListener("hashchange", () => setPage());
         setPage();

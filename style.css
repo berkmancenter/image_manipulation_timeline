@@ -248,12 +248,16 @@ p:first-child {
   grid-column: 1;
 }
 #year {
-    grid-column: 10/15;
-    grid-row: 1/4;
+    position:absolute;
+    right: 0;
+    z-index: 2;
+    width: 3.5rem;
     font-family: gloockregular;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     text-align: center;
-    line-height: 3.2rem;
+    line-height: 2rem;
+    height: 2rem;
+    border-width: 2px;
 }
 .activeEra1 #year {
   background-color: var(--yellow);
@@ -325,6 +329,22 @@ p:first-child {
 
 /** End Image grid nav **/
 
+/** Era timeline **/
+#eraTimeline {
+  width: 1rem;
+  height: calc(100vh - 2rem);
+  position: absolute;
+  right: -1rem;
+  top: 0;
+}
+#eraTimeline .box {
+  padding: 0;
+}
+#eraTimeline .box:nth-child(2), #eraTimeline .box:nth-child(3) {
+  border-top-width: 0;
+}
+
+/** End Era timeline **/
 
 /** To be organized **/
 .gridded {
