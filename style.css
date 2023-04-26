@@ -51,7 +51,6 @@ button {
 }
 a {
   color: black;
-  text-decoration: none;
 }
 h1 {
   font-size: 2.0rem;
@@ -396,7 +395,7 @@ p:first-child {
   width: 1rem;
   height: calc(100vh - 2rem);
   position: absolute;
-  right: -1rem;
+  right: -23rem;
   top: 0;
 }
 #eraTimeline .box {
@@ -451,5 +450,5 @@ canvas {
   position: sticky;
   top: 2rem;
   z-index: 2;
+  width: 12rem;
 }
-
