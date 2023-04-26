@@ -161,6 +161,7 @@
           style="margin-left: 12rem; width: 18rem"
           v-html="s.about"
         ></div>
+        <div class="gridded background"></div>
       </div>
 
       <div id="page-timeline">
@@ -213,7 +214,7 @@
             </div>
           </div>
         </div>
-        <div id="background" class="gridded"></div>
+        <div class="gridded background"></div>
 
         <div id="timeline" class="box">
           <div id="border"></div>
@@ -253,6 +254,7 @@
       </div>
 
       <div id="page-home">
+        <div class="gridded background"></div>
         <div
           class="box"
           style="
@@ -281,7 +283,8 @@
             width: calc(21rem + 2px);
             margin-left: 8rem;
             margin-top: calc(2rem - 1px);
-            height: calc(4rem + 1px);
+            height: calc(5rem + 1px);
+            padding-top: 0.1rem;
           "
         >
           <p v-html="s.enticement"></p>
@@ -293,7 +296,7 @@
             width: calc(21rem + 2px);
             margin-left: 4rem;
             margin-top: calc(4rem - 1px);
-            height: calc(26rem + 1px);
+            height: calc(51rem + 1px);
           "
           v-html="s.overview"
         ></div>
@@ -328,33 +331,32 @@
           >
             {{s.example}}
           </p>
-
-          <a href="#timeline" id="startTimeline" class="box">
-            <svg>
-              <defs>
-                <marker
-                  id="head"
-                  orient="auto"
-                  markerWidth="3"
-                  markerHeight="4"
-                  refX="0.1"
-                  refY="2"
-                >
-                  <path d="M0,0 V4 L2,2 Z" fill="black" />
-                </marker>
-              </defs>
-
-              <path
-                id="arrow-line"
-                marker-end="url(#head)"
-                fill="none"
-                stroke="black"
-                stroke-width="3"
-                d="M15,35, 50 35"
-              ></path>
-            </svg>
-          </a>
         </div>
+        <a href="#timeline" id="startTimeline" class="box">
+          <svg>
+            <defs>
+              <marker
+                id="head"
+                orient="auto"
+                markerWidth="3"
+                markerHeight="4"
+                refX="0.1"
+                refY="2"
+              >
+                <path d="M0,0 V4 L2,2 Z" fill="black" />
+              </marker>
+            </defs>
+
+            <path
+              id="arrow-line"
+              marker-end="url(#head)"
+              fill="none"
+              stroke="black"
+              stroke-width="3"
+              d="M20,45, 65 45"
+            ></path>
+          </svg>
+        </a>
       </div>
     </div>
 

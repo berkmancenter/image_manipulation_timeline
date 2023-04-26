@@ -100,12 +100,47 @@ p:first-child {
   box-sizing: border-box;
   */
 }
-.page-timeline {
+.page-about .background {
+  height: calc(100vh - 2rem);
+  width: calc(var(--unit) * var(--ncols) + 1px);
+  overflow: hidden;
+  z-index: -1;
+  position: absolute;
+  top: 2rem;
+  margin: 0;
+  padding: 0;
 }
-.page-timeline #timeline {
+.page-about .title {
+  width: calc(var(--ncols) * 1rem - 2rem);
+  height: calc(1rem + 1px);
+  padding: 3px 0.5rem;
+  font-size: 0.6rem;
+  margin-bottom: -2px;
+}
+
+.page-timeline .background {
+  height: 100vh;
+  width: calc(var(--unit) * var(--ncols) + 1px);
+  overflow: hidden;
+  z-index: -1;
+  position: sticky;
+  top: 2rem;
+  margin: 0;
+  margin-top: -23rem;
+  padding: 0;
 }
 .page-home #container {
   padding-top: 1rem;
+}
+.page-home .background {
+  height: calc(90rem + 1px);
+  width: calc(var(--unit) * var(--ncols) + 1px);
+  overflow: hidden;
+  z-index: -1;
+  position: absolute;
+  top: 2rem;
+  margin: 0;
+  padding: 0;
 }
 /** End Page-specific changes **/
 
@@ -242,9 +277,9 @@ p:first-child {
 #context {
     display: grid;
     gap: 0;
-    grid-template-columns: repeat(14, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: 14rem;
+    width: 12rem;
     height: 3rem;
 }
 
@@ -400,9 +435,10 @@ canvas {
   width: calc(3rem + 2px);
   height: calc(3rem + 1px);
   padding: 0;
-  position: absolute;
-  right: calc(-1rem - 1px);
-  bottom: 2rem;
+  position: relative;
+  display: inline-block;
+  right: -30rem;
+  bottom: calc(3rem + 1px);
   overflow: hidden;
 }
 #startTimeline svg {
@@ -410,13 +446,6 @@ canvas {
   height: 3rem;
 }
 
-.title {
-  width: 770px;
-  height: calc(1rem + 2px);
-  padding: 3px 0.5rem;
-  font-size: 0.6rem;
-  margin-bottom: calc(1rem - 1px);
-}
 
 #fixedContent {
   position: sticky;
@@ -424,14 +453,3 @@ canvas {
   z-index: 2;
 }
 
-#background {
-  height: 100vh;
-  width: calc(var(--unit) * var(--ncols) + 1px);
-  overflow: hidden;
-  z-index: -1;
-  position: sticky;
-  top: 2rem;
-  margin: 0;
-  margin-top: -23rem;
-  padding: 0;
-}
