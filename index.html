@@ -12,6 +12,7 @@
       const eventScenes = {};
       const eraScenes = {};
       let yearRange = [];
+      const gridSize = 32;
       function currentPage() {
         return location.hash.substr(1) || "home";
       }
@@ -23,12 +24,12 @@
         }
         document.querySelector("body").setAttribute("class", `page-${newPage}`);
         scrollTo(0, 0);
-        gridify();
+        gridify(false, gridSize);
       }
       function setEraDurations() {
         for (era in eraScenes) {
           el = elementFromEra(era);
-          eraScenes[era].duration(el.clientHeight + 24 * 3);
+          eraScenes[era].duration(el.clientHeight + gridSize * 3);
         }
       }
       function erasToTimelineHeights(eras) {
@@ -89,7 +90,7 @@
         });
         eraScenes[era.era] = scene;
         scene
-          .addIndicators()
+          //.addIndicators()
           .on("enter", () => {
             if (el.clientHeight > 0) {
               setEraActive(era.era);
@@ -106,7 +107,7 @@
         });
         eventScenes[event.id] = scene;
         scene
-          .addIndicators()
+          //.addIndicators()
           .on("enter", () => {
             if (el.clientHeight > 0) {
               onEnter(event, el);
@@ -138,26 +139,7 @@
       </a>
     </div>
 
-    <div id="container" class="gridded activeEra1" v-scope>
-      <div id="eraTimeline">
-        <div
-          v-for="era in eras"
-          :class="['box', `${era.color}Backed`]"
-          id="`era${era.era}Box`"
-          :style="{height: `${era.height * 100}%`}"
-        ></div>
-        <div
-          id="year"
-          class="box"
-          :style="{
-        top: `clamp(0vh, calc(${
-          yearToPct(state.currentEvent.year) * 100
-        }vh - 1.5rem), calc(100vh - 5rem))`}"
-        >
-          {{state.currentEvent.year}}
-        </div>
-      </div>
-
+    <div id="container" class="activeEra1" v-scope>
       <div id="eraMenu" style="display: none">
         <a
           href="#timeline"
@@ -182,34 +164,59 @@
       </div>
 
       <div id="page-timeline">
-        <div id="nav">
-          <div id="context">
-            <div id="legend" class="box">
-              <div class="box">Legend entry 1</div>
-              <div class="box">Legend entry 2</div>
-              <div class="box">Legend entry 3</div>
+        <div id="fixedContent">
+          <div id="eraTimeline">
+            <div
+              v-for="era in eras"
+              :class="['box', `${era.color}Backed`]"
+              id="`era${era.era}Box`"
+              :style="{height: `${era.height * 100}%`}"
+            ></div>
+            <div id="firstLabel">{{eras[0].first_year}}</div>
+            <div id="lastLabel">{{eras[eras.length - 1].last_year}}</div>
+            <div
+              id="year"
+              class="box"
+              :style="{
+        top: `clamp(0vh, calc(${
+          yearToPct(state.currentEvent.year) * 100
+        }vh - 1.5rem), calc(100vh - 5rem))`}"
+            >
+              {{state.currentEvent.year}}
             </div>
           </div>
+          <div id="nav">
+            <div id="context">
+              <div id="legend" class="box">
+                <div v-for="tag in tags" class="box">
+                  <span class="tagIcon">{{tag.icon}}</span>{{tag.name}}
+                </div>
+              </div>
+            </div>
 
-          <div
-            v-for="era in eras"
-            :id="`era${era.era}Nav`"
-            :class="['imageContainer','box',`${era.color}Backed`]"
-          >
-            <div class="imageGrid box">
-              <div
-                v-for="(event, i) in eraEvents(era.era)"
-                :class="['imageThumb', { showing: event.id === state.currentEvent.id}]"
-                :id="`thumb-event${event.id}`"
-                @click="jumpToEvent(event)"
-              >
-                <img :src="event.image_url" />
+            <div
+              v-for="era in eras"
+              :id="`era${era.era}Nav`"
+              :class="['imageContainer','box',`${era.color}Backed`]"
+            >
+              <div class="imageGrid box">
+                <div class="eraName">{{era.slug}}</div>
+                <div
+                  v-for="(event, i) in eraEvents(era.era)"
+                  :class="['imageThumb', { showing: event.id === state.currentEvent.id}]"
+                  :id="`thumb-event${event.id}`"
+                  @click="jumpToEvent(event)"
+                >
+                  <img :src="event.image_url" />
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div id="background" class="gridded"></div>
 
         <div id="timeline" class="box">
+          <div id="border"></div>
           <div id="events">
             <div
               v-for="era in eras"
@@ -230,7 +237,12 @@
                     <img :src="event.image_url" />
                   </div>
                   <div class="eventData">
-                    <div class="eventTitle">{{event.title}}</div>
+                    <div class="eventTitle">
+                      {{event.title}}
+                      <span v-for="tag in event.tags" class="tagIcon"
+                        >{{tag.icon}}</span
+                      >
+                    </div>
                     <p class="eventText">{{event.text}}</p>
                   </div>
                 </li>
@@ -355,7 +367,7 @@
         },
       });
 
-      function populateApp(timeline, eras, strings) {
+      function populateApp(timeline, eras, tags, strings) {
         eras = parseCSVtoObjects(eras);
         yearRange = [
           parseInt(eras[0].first_year),
@@ -367,8 +379,10 @@
           e.height = heights[i][1] - heightSoFar;
           heightSoFar = heights[i][1];
         });
+        tags = parseCSVtoObjects(tags);
         let events = parseCSVtoObjects(timeline).map((e, i) => {
           e.id = i;
+          e.tags = tags.filter((t) => e[t.tag] === "1");
           return e;
         });
         strings = Object.fromEntries(
@@ -376,15 +390,15 @@
         );
         console.log(events);
         console.log(eras);
+        console.log(tags);
 
-        controller = new ScrollMagic.Controller({
-          container: "#timeline",
-        });
+        controller = new ScrollMagic.Controller({});
 
         createApp({
           state: state,
           events: events,
           eras: eras,
+          tags: tags,
           s: strings,
           eraEvents(i) {
             return this.events.filter((e) => e.era === i);
@@ -396,12 +410,12 @@
             this.state.setCurrentEvent(event);
             /* Sometimes this event runs even though the events are hidden.
             Just don't do that. */
-            eventScenes[event.id].duration(el.clientHeight + 24 * 3);
+            eventScenes[event.id].duration(el.clientHeight + gridSize * 3);
             setEraDurations();
           },
         }).mount("#container");
 
-        gridify(false);
+        gridify(false, gridSize);
         addEventListener("hashchange", () => setPage());
         setPage();
       }
@@ -410,10 +424,17 @@
         "https://docs.google.com/spreadsheets/d/1fpHxE_ketMRAzXCKKmMwXxHpvdlT8GNdPWeugIUZ0D0/gviz/tq?tqx=out:csv";
       const erasURL =
         "https://docs.google.com/spreadsheets/d/1fpHxE_ketMRAzXCKKmMwXxHpvdlT8GNdPWeugIUZ0D0/gviz/tq?gid=1115017889&tqx=out:csv";
+      const tagsURL =
+        "https://docs.google.com/spreadsheets/d/1fpHxE_ketMRAzXCKKmMwXxHpvdlT8GNdPWeugIUZ0D0/gviz/tq?gid=359238604&tqx=out:csv";
       const stringsURL =
         "https://docs.google.com/spreadsheets/d/1fpHxE_ketMRAzXCKKmMwXxHpvdlT8GNdPWeugIUZ0D0/gviz/tq?gid=1102126140&tqx=out:csv";
 
-      Promise.all([fetch(timelineURL), fetch(erasURL), fetch(stringsURL)])
+      Promise.all([
+        fetch(timelineURL),
+        fetch(erasURL),
+        fetch(tagsURL),
+        fetch(stringsURL),
+      ])
         .then((responses) => Promise.all(responses.map((r) => r.text())))
         .then((texts) => {
           if (document.readyState === "loading") {

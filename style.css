@@ -3,7 +3,9 @@
   --yellow: #fef287;
   --orange: #ffcd93;
   --magenta: #f5b7ff;
-  font-size: 24px;
+  --unit: 32px;
+  --ncols: 32;
+  font-size: var(--unit);
 }
 /** End Variables **/
 
@@ -36,14 +38,13 @@ h1, h2, h3, h4, h5, h6, #link-about, .title {
 /** General elements **/
 html,
 body {
-  height: 100%;
   font-family: "Times New Roman", "serif";
   margin: 0;
   padding: 0;
 }
 body {
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 18px;
+  line-height: 1.5em;
 }
 button {
   font-family: "Times New Roman", "serif";
@@ -100,11 +101,8 @@ p:first-child {
   */
 }
 .page-timeline {
-  overflow-y: hidden;
 }
 .page-timeline #timeline {
-  height: 100vh;
-  overflow-y: scroll;
 }
 .page-home #container {
   padding-top: 1rem;
@@ -116,8 +114,12 @@ p:first-child {
 #topBar {
   height: 2rem;
   display: flex;
+  position: sticky;
+  top: 0;
   padding: 0 2rem;
   justify-content: space-between;
+  z-index: 3;
+  background-color: white;
 }
 #topBar > * {
   margin-top: 0.6rem;
@@ -126,10 +128,8 @@ p:first-child {
 
 /** Containers **/
 #container {
-  margin: 0 3rem;
-  padding-top: 0;
-  padding-bottom: 1rem;
-  width: 770px;
+  margin: 0 auto;
+  max-width: calc(var(--unit) * var(--ncols) + 2rem);
   min-height: calc(100vh - 3rem);
 }
 .box {
@@ -190,10 +190,9 @@ p:first-child {
 
 /** Timeline of events **/
 #timeline {
-  width: calc(16rem + 2px);
-  margin-left: 14rem;
-  position: relative;
-  top: calc(-22rem - 2px);
+  width: calc(18rem + 2px);
+  margin-left: 12rem;
+  margin-top: calc(-26.5rem);
   padding: 1rem;
   scrollbar-width: none;
 }
@@ -204,9 +203,20 @@ p:first-child {
 .era {
   padding-top: 1rem;
 }
+#border {
+  height: 0px;
+  border-top: 2px solid black;
+  position: sticky;
+  top: 2rem;
+  margin-top: calc(-1rem - 2px);
+  width: 18rem;
+  margin-left: -1rem;
+}
 
 #events {
-  padding-bottom: 8rem;
+  /* This is silly, but it's a easy workaround to allow the last 
+     event to be highlighted by scrolling */
+  margin-bottom: 12rem;
 }
 #events ol {
     list-style: none;
@@ -217,10 +227,14 @@ p:first-child {
 }
 .eventImage {
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 .eventTitle {
   font-family: "gloockregular", serif;
   font-size: 0.7rem;
+}
+.eventTitle .tagIcon {
+  padding: 0 0.1em;
 }
 /** End Timeline of events **/
 
@@ -239,25 +253,31 @@ p:first-child {
     border-width: 1px;
 }
 #legend {
-  grid-column: 1/10;
+  grid-column: 1/13;
   grid-row: 1/4;
   height: 100%;
   display: grid;
 }
 #legend .box {
   grid-column: 1;
+  font-size: 0.9em;
+}
+#legend .tagIcon {
+  width: 1rem;
+  display: inline-block;
+  text-align: center;
 }
 #year {
-    position:absolute;
-    right: 0;
-    z-index: 2;
-    width: 3.5rem;
-    font-family: gloockregular;
-    font-size: 1.4rem;
-    text-align: center;
-    line-height: 2rem;
-    height: 2rem;
-    border-width: 2px;
+  position:absolute;
+  right: 0;
+  z-index: 2;
+  width: 3.5rem;
+  font-family: gloockregular;
+  font-size: 1.4rem;
+  text-align: center;
+  line-height: 2rem;
+  height: 2rem;
+  border-width: 2px;
 }
 .activeEra1 #year {
   background-color: var(--yellow);
@@ -272,15 +292,13 @@ p:first-child {
 
 /** Image grid nav **/
 .imageContainer {
-    height: calc(6.5rem + 1px);
-    width: calc(14rem + 1px);
-    margin: 0;
-    padding: 0.5rem 1rem 0;
-    border-right-width: 1px;
+  width: calc(12rem + 1px);
+  margin: 0;
+  padding: 0.5rem 1rem 0;
+  border-right-width: 1px;
 }
 .imageGrid {
-  height: 6rem;
-  width: 12rem;
+  width: 10rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -289,12 +307,13 @@ p:first-child {
   margin: 0;
   border: 0;
   background: none;
+  position: relative;
 }
 .imageThumb {
   border: 1px solid black;
   box-sizing: border-box;
-  width: 2rem;
-  height: 2rem;
+  width: calc(10rem / 6);
+  height: calc(10rem / 6);
   cursor: pointer;
 }
 .imageThumb img {
@@ -308,10 +327,18 @@ p:first-child {
   filter: grayscale(0%);
   opacity: 1.0 !important;
 }
+.eraName {
+  position: absolute;
+  right: 0;
+  transform: rotate(270deg);
+  transform-origin: top right;
+  font-style: italic;
+  font-size: 0.9em;
+  padding-right: 1em;
+}
 
 #era2Nav {
   padding-top: 0;
-  height: 6rem;
   border-top-width: 0;
 }
 #era2Nav .box {
@@ -342,6 +369,18 @@ p:first-child {
 }
 #eraTimeline .box:nth-child(2), #eraTimeline .box:nth-child(3) {
   border-top-width: 0;
+}
+#firstLabel, #lastLabel {
+  font-family: gloockregular;
+  position: absolute;
+  right: 1rem;
+  padding: 0.2em;
+}
+#firstLabel {
+  top: 0rem;
+}
+#lastLabel {
+  bottom: 0rem;
 }
 
 /** End Era timeline **/
@@ -377,4 +416,22 @@ canvas {
   padding: 3px 0.5rem;
   font-size: 0.6rem;
   margin-bottom: calc(1rem - 1px);
+}
+
+#fixedContent {
+  position: sticky;
+  top: 2rem;
+  z-index: 2;
+}
+
+#background {
+  height: 100vh;
+  width: calc(var(--unit) * var(--ncols) + 1px);
+  overflow: hidden;
+  z-index: -1;
+  position: sticky;
+  top: 2rem;
+  margin: 0;
+  margin-top: -23rem;
+  padding: 0;
 }

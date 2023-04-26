@@ -1,10 +1,22 @@
-function gridify(align=true) {
-  let drawCall = (el) => { drawGrid(el, 24, 24, ["#fef287", "#ffcd93", "#f5b7ff"], 0.02, align) }
+function gridify(align=true, size=24) {
+  let drawCall = (el) => { drawGrid(el, size, size, ["#fef287", "#ffcd93", "#f5b7ff"], 0.02, align) }
   for (const el of document.getElementsByClassName("gridded")) {
     drawCall(el);
-    document.addEventListener("wheel", () => { drawCall(el) });
+    window.addEventListener("scroll", () => { throttle(() => { drawCall(el); }, 150) });
+    //document.addEventListener("scroll", () => { drawCall(el) });
   }
 }
+let throttleTimer;
+
+const throttle = (callback, time) => {
+  if (throttleTimer) return;
+    throttleTimer = true;
+    setTimeout(() => {
+        callback();
+        throttleTimer = false;
+    }, time);
+}
+
 //canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight);
 
 function getRandomInt(min, max) {
