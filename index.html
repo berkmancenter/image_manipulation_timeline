@@ -126,7 +126,7 @@
     </script>
   </head>
 
-  <body class="page-home">
+  <body class="page-home" v-scope>
     <div id="topBar">
       <a href="#about" id="link-about"> /about </a>
       <a id="link-home" href="#home">
@@ -136,7 +136,7 @@
       </a>
     </div>
 
-    <div id="container" class="activeEra1" v-scope>
+    <div id="container" class="activeEra1">
       <div id="eraMenu" style="display: none">
         <a
           href="#timeline"
@@ -245,7 +245,10 @@
                   class="event"
                   @vue:mounted="setupEvent(event)"
                 >
-                  <div class="eventImage">
+                  <div
+                    class="eventImage"
+                    @click="state.setSelectedImage(event.image_url)"
+                  >
                     <img :src="event.image_url" />
                   </div>
                   <div class="eventData">
@@ -369,6 +372,13 @@
           </svg>
         </a>
       </div>
+      <div
+        id="lightbox"
+        v-show="Object.keys(state.selectedImage).length > 0"
+        @click="state.setSelectedImage(null)"
+      >
+        <img :src="state.selectedImage.src" />
+      </div>
     </div>
 
     <script type="module">
@@ -396,6 +406,14 @@
         hovering: false,
         toggleHovering: function () {
           this.hovering = !this.hovering;
+        },
+        selectedImage: {},
+        setSelectedImage: function (url) {
+          if (url === null) {
+            this.selectedImage = {};
+          } else {
+            this.selectedImage = { src: url };
+          }
         },
       });
 
