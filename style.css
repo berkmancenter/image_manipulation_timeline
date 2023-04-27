@@ -335,13 +335,16 @@ p:first-child {
   background-color: var(--magenta);
 }
 #bigYear {
-  position: absolute;
-  top: 40vh;
+  position: fixed;
+  top: 50vh;
+  left: 0;
+  z-index: 5;
   font-family: gloockregular;
   font-size: 8rem;
   text-align: center;
-  width: 90vw;
+  width: 100%;
   text-shadow: 0 0 3em white;
+  pointer-events: none;
 }
 /** End Event context **/
 

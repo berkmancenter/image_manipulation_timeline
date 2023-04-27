@@ -194,11 +194,6 @@
                   <span class="tagIcon">{{tag.icon}}</span>{{tag.name}}
                 </div>
               </div>
-              <div
-                id="bigYear"
-                v-text="state.hoveredEvent.year"
-                :class="{ hidden: !state.hoveredEvent || state.hoveredEvent.id === state.currentEvent.id }"
-              ></div>
             </div>
 
             <div
@@ -379,6 +374,11 @@
       >
         <img :src="state.selectedImage.src" />
       </div>
+      <div
+        id="bigYear"
+        v-text="state.hoveredEvent.year"
+        :class="{ hidden: !state.hoveredEvent || state.hoveredEvent.id === state.currentEvent.id }"
+      ></div>
     </div>
 
     <script type="module">
