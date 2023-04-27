@@ -65,6 +65,9 @@ h2 {
 p:first-child {
   margin-top: 0.2rem;
 }
+.hidden {
+  display: none;
+}
 /** End General elements **/
 
 /** Paging **/
@@ -301,6 +304,14 @@ p:first-child {
   display: inline-block;
   text-align: center;
 }
+.tag {
+  cursor: pointer;
+}
+.tag.selected {
+  border-width: 2px;
+  transform: translate(6px, -6px);
+  box-shadow: -6px 6px 0 1px black;
+}
 #year {
   position:absolute;
   right: 0;
@@ -321,6 +332,15 @@ p:first-child {
 }
 .activeEra3 #year {
   background-color: var(--magenta);
+}
+#bigYear {
+  position: absolute;
+  top: 40vh;
+  font-family: gloockregular;
+  font-size: 8rem;
+  text-align: center;
+  width: 90vw;
+  text-shadow: 0 0 3em white;
 }
 /** End Event context **/
 
@@ -349,6 +369,7 @@ p:first-child {
   width: calc(10rem / 6);
   height: calc(10rem / 6);
   cursor: pointer;
+  /*transition: transform 20ms linear;*/
 }
 .imageThumb img {
   height: 100%;
@@ -356,6 +377,11 @@ p:first-child {
   object-fit: cover;
   opacity: 0.5;
   filter: grayscale(100%);
+}
+.imageThumb:hover {
+  transform: scale(1.3);
+  position: relative;
+  z-index: 4;
 }
 .imageThumb:hover img, .imageThumb.showing img{
   filter: grayscale(0%);
@@ -449,6 +475,6 @@ canvas {
 #fixedContent {
   position: sticky;
   top: 2rem;
-  z-index: 2;
   width: 12rem;
+  z-index: 4;
 }

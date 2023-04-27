@@ -63,10 +63,7 @@
         );
         classes.add(`activeEra${era}`);
       }
-      function jumpToEra(era, e) {
-        if (e) {
-          e.preventDefault();
-        }
+      function jumpToEra(era) {
         if (currentPage() === "timeline") {
           controller.scrollTo(eraScenes[era].scrollOffset() + 10);
         } else {
@@ -145,7 +142,7 @@
           href="#timeline"
           v-for="era in eras"
           :class="`${era.color}Backed`"
-          @click="jumpToEra(era.era, $event)"
+          @click.prevent="jumpToEra(era.era)"
         >
           {{era.first_year}} &ndash; {{era.last_year}}:<br />
           {{era.slug}}
@@ -189,10 +186,19 @@
           <div id="nav">
             <div id="context">
               <div id="legend" class="box">
-                <div v-for="tag in tags" class="box">
+                <div
+                  v-for="tag in tags"
+                  :class="['tag', 'box', {selected: state.selectedTags.includes(tag.tag) }]"
+                  @click="state.toggleTag(tag.tag)"
+                >
                   <span class="tagIcon">{{tag.icon}}</span>{{tag.name}}
                 </div>
               </div>
+              <div
+                id="bigYear"
+                v-text="state.hoveredEvent.year"
+                :class="{ hidden: !state.hoveredEvent || state.hoveredEvent.id === state.currentEvent.id }"
+              ></div>
             </div>
 
             <div
@@ -207,8 +213,13 @@
                   :class="['imageThumb', { showing: event.id === state.currentEvent.id}]"
                   :id="`thumb-event${event.id}`"
                   @click="jumpToEvent(event)"
+                  @mouseenter="state.setHoveredEvent(event)"
+                  @mouseleave="state.setHoveredEvent({})"
                 >
-                  <img :src="event.image_url" />
+                  <img
+                    :src="event.image_url"
+                    :class="{hidden: !hasSelectedTag(event)}"
+                  />
                 </div>
               </div>
             </div>
@@ -367,6 +378,25 @@
         setCurrentEvent: function (event) {
           this.currentEvent = event;
         },
+        hoveredEvent: {},
+        setHoveredEvent: function (event) {
+          this.hoveredEvent = event;
+        },
+        selectedTags: [],
+        toggleTag: function (tag) {
+          // Vue can't handle Sets as state, so convert to object and back.
+          let tags = new Set(this.selectedTags);
+          if (tags.has(tag)) {
+            tags.delete(tag);
+          } else {
+            tags.add(tag);
+          }
+          this.selectedTags = Array.from(tags.values());
+        },
+        hovering: false,
+        toggleHovering: function () {
+          this.hovering = !this.hovering;
+        },
       });
 
       function populateApp(timeline, eras, tags, strings) {
@@ -414,6 +444,13 @@
             Just don't do that. */
             eventScenes[event.id].duration(el.clientHeight + gridSize * 3);
             setEraDurations();
+          },
+          hasSelectedTag(event) {
+            if (this.state.selectedTags.length === 0) {
+              return true;
+            }
+            tags = new Set(this.state.selectedTags);
+            return !!event.tags.find((t) => tags.has(t.tag));
           },
         }).mount("#container");
 
