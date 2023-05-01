@@ -134,6 +134,7 @@
           <path d="M160 936V456l320-240 320 240v480H560V656H400v280H160Z" />
         </svg>
       </a>
+      <a id="link-menu" @click="state.toggleMobileMenu">menu</a>
     </div>
 
     <div id="container" class="activeEra1">
@@ -162,6 +163,27 @@
       </div>
 
       <div id="page-timeline">
+        <div id="mobile">
+          <div id="mobileMenu" v-show="state.mobileMenuVisible">
+            <a
+              href="#timeline"
+              v-for="era in eras"
+              :class="`${era.color}Backed`"
+              @click.prevent="jumpToEra(era.era); state.toggleMobileMenu()"
+            >
+              {{era.first_year}} &ndash; {{era.last_year}}: {{era.slug}}
+            </a>
+          </div>
+          <div
+            id="mobileContext"
+            v-show="!!state.currentEvent.year && !state.mobileMenuVisible"
+          >
+            {{state.currentEvent.year}}
+            <span v-for="tag in state.currentEvent.tags" class="tagIcon"
+              >{{tag.icon}}</span
+            >
+          </div>
+        </div>
         <div id="fixedContent">
           <div id="eraTimeline">
             <div
@@ -260,6 +282,36 @@
           </div>
         </div>
         <div class="gridded background"></div>
+        <a
+          id="link-eraTop"
+          class="box"
+          v-show="!!state.currentEvent.year"
+          @click.prevent="jumpToEra(state.currentEvent.era)"
+        >
+          <svg>
+            <defs>
+              <marker
+                id="head"
+                orient="auto"
+                markerWidth="3"
+                markerHeight="4"
+                refX="0.1"
+                refY="2"
+              >
+                <path d="M0,0 V4 L3,2 Z" fill="black" />
+              </marker>
+            </defs>
+
+            <path
+              id="arrow-line"
+              marker-end="url(#head)"
+              fill="none"
+              stroke="black"
+              stroke-width="3"
+              d="M18,30, 18 14"
+            ></path>
+          </svg>
+        </a>
       </div>
 
       <div id="page-home">
@@ -415,6 +467,10 @@
             this.selectedImage = { src: url };
           }
         },
+        mobileMenuVisible: false,
+        toggleMobileMenu: function () {
+          this.mobileMenuVisible = !this.mobileMenuVisible;
+        },
       });
 
       function populateApp(timeline, eras, tags, strings) {
@@ -470,7 +526,7 @@
             tags = new Set(this.state.selectedTags);
             return !!event.tags.find((t) => tags.has(t.tag));
           },
-        }).mount("#container");
+        }).mount();
 
         gridify(false, gridSize);
         addEventListener("hashchange", () => setPage());

@@ -18,7 +18,7 @@
     font-style: normal;
 
 }
-h1, h2, h3, h4, h5, h6, #link-about, .title {
+h1, h2, h3, h4, h5, h6, #link-about, #link-menu, .title {
   font-family: 'gloockregular';
 }
 /** End Fonts **/
@@ -512,3 +512,108 @@ canvas {
   right: 1rem; 
   color: white;
 }
+
+/** Mobile stuff **/
+#link-menu {
+  cursor: pointer;
+  display: none;
+}
+
+#mobile {
+  display: none;
+}
+
+@media (min-width: 961px) {
+  #link-eraTop, #mobileMenu, #mobileContext {
+    display: none;
+  }
+}
+
+
+@media (max-width: 960px) {
+  .page-timeline #link-menu {
+    display: inline;
+  }
+  #topBar {
+    border-bottom: 2px solid black;
+    height: 1.5rem;
+  }
+  #topBar > * {
+    margin-top: 0.35rem;
+  }
+  #container {
+    padding: 0 1rem;
+  }
+  #border {
+    display: none;
+  }
+  #fixedContent {
+    display: none;
+  }
+  #page-timeline {
+    display: block;
+    width: 100%;
+    min-width: 250px;
+  }
+  #timeline {
+    width: auto;
+    border-top-width: 0;
+  }
+  #timeline img {
+    max-width: 100%;
+  }
+  #link-eraTop {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 1.3rem;
+    height: 1.3rem;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+  }
+  .background {
+    display: none;
+  }
+  #mobileContext {
+    height: 2rem;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    display: flex;
+    padding: 0 1rem;
+  }
+  #mobile {
+    position: sticky;
+    top: 1.5rem;
+    border-bottom: 2px solid black;
+    margin: -1rem;
+    font-family: gloockregular;
+    display: block;
+  }
+  #mobileContext .tagIcon:first-of-type {
+    margin-left: auto;
+  }
+  .activeEra1 #mobileContext {
+    background-color: var(--yellow);
+  }
+  .activeEra2 #mobileContext {
+    background-color: var(--orange);
+  }
+  .activeEra3 #mobileContext {
+    background-color: var(--magenta);
+  }
+  .eventTitle {
+    display: none;
+  }
+  #mobileMenu {
+    position: sticky;
+    top: 1.5rem;
+  }
+  #mobileMenu a {
+    display: block;
+    padding: 0.4em 1em;
+    text-decoration: none;
+    border-bottom: 1px solid black;
+  }
+}
+/** End Mobile stuff **/
