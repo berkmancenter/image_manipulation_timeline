@@ -46,6 +46,12 @@ body {
   font-size: 18px;
   line-height: 1.5em;
 }
+html {
+  transition: transform 1s ease-in;
+}
+html:hover img {
+	animation: puff-out-center 150ms ease-in both;
+}
 button {
   font-family: "Times New Roman", "serif";
 }
@@ -61,6 +67,8 @@ h2 {
   font-size: 1.2rem;
   text-align: center;
   margin-top: 0.7rem;
+}
+img {
 }
 p:first-child {
   margin-top: 0.2rem;
@@ -125,10 +133,9 @@ p:first-child {
   width: calc(var(--unit) * var(--ncols) + 1px);
   overflow: hidden;
   z-index: -1;
-  position: sticky;
+  position: fixed;
   top: 2rem;
   margin: 0;
-  margin-top: -23rem;
   padding: 0;
 }
 .page-home #container {
@@ -143,6 +150,11 @@ p:first-child {
   top: 2rem;
   margin: 0;
   padding: 0;
+}
+#page-timeline {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  align-items: start;
 }
 /** End Page-specific changes **/
 
@@ -228,8 +240,6 @@ p:first-child {
 /** Timeline of events **/
 #timeline {
   width: calc(18rem + 2px);
-  margin-left: 12rem;
-  margin-top: calc(-26.5rem);
   padding: 1rem;
   scrollbar-width: none;
 }
@@ -278,26 +288,14 @@ p:first-child {
 
 /** Event context **/
 #context {
-    display: grid;
-    gap: 0;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    width: 12rem;
-    height: 3rem;
+  width: 12rem;
 }
 
 #context .box {
-    padding: 0;
-    border-width: 1px;
-}
-#legend {
-  grid-column: 1/13;
-  grid-row: 1/4;
-  height: 100%;
-  display: grid;
+  padding: 0;
+  border-width: 1px 0px 0px 1px;
 }
 #legend .box {
-  grid-column: 1;
   font-size: 0.9em;
 }
 #legend .tagIcon {
@@ -309,7 +307,7 @@ p:first-child {
   cursor: pointer;
 }
 .tag.selected {
-  border-width: 2px;
+  border-right-width: 1px !important;
   transform: translate(6px, -6px);
   box-shadow: -6px 6px 0 1px black;
 }
@@ -359,7 +357,6 @@ p:first-child {
   width: 10rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(3, 1fr);
   gap: 0;
   padding: 0;
   margin: 0;
@@ -374,6 +371,12 @@ p:first-child {
   height: calc(10rem / 6);
   cursor: pointer;
   /*transition: transform 20ms linear;*/
+}
+#nav .imageContainer:not(:last-child) .imageThumb:nth-last-child(-n+6) {
+  border-bottom-width: 0;
+}
+#nav .imageContainer:not(:nth-child(2)) .imageThumb:nth-child(-n+7) {
+  border-top-width: 0;
 }
 .imageThumb img {
   height: 100%;

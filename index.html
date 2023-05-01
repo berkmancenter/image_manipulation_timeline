@@ -41,7 +41,7 @@
       function jumpToEvent(event) {
         /* Move a little beyond the top of the scene because 
         otherwise the "enter" event doesn't fire.*/
-        controller.scrollTo(eventScenes[event.id].scrollOffset() + 10);
+        controller.scrollTo(eventScenes[event.id].scrollOffset() + 40);
       }
       function elementFromEvent(event) {
         return document.getElementById(`event${event.id}`);
@@ -83,7 +83,7 @@
         scene = new ScrollMagic.Scene({
           triggerElement: el,
           offset: -20,
-          triggerHook: 0.0,
+          triggerHook: 0.1,
         });
         eraScenes[era.era] = scene;
         scene
@@ -100,7 +100,7 @@
         const scene = new ScrollMagic.Scene({
           triggerElement: el,
           offset: -20,
-          triggerHook: 0.15,
+          triggerHook: 0.25,
         });
         eventScenes[event.id] = scene;
         scene
@@ -130,7 +130,7 @@
     <div id="topBar">
       <a href="#about" id="link-about"> /about </a>
       <a id="link-home" href="#home">
-        <svg height="1rem" viewBox="0 96 960 960" width="48">
+        <svg viewBox="0 96 960 960" width="32" height="32">
           <path d="M160 936V456l320-240 320 240v480H560V656H400v280H160Z" />
         </svg>
       </a>
@@ -178,7 +178,7 @@
               :style="{
         top: `clamp(0vh, calc(${
           yearToPct(state.currentEvent.year) * 100
-        }vh - 1.5rem), calc(100vh - 5rem))`}"
+        }vh - 1.5rem), calc(100vh - 4rem))`}"
             >
               {{state.currentEvent.year}}
             </div>
@@ -220,7 +220,6 @@
             </div>
           </div>
         </div>
-        <div class="gridded background"></div>
 
         <div id="timeline" class="box">
           <div id="border"></div>
@@ -260,6 +259,7 @@
             </div>
           </div>
         </div>
+        <div class="gridded background"></div>
       </div>
 
       <div id="page-home">
