@@ -290,6 +290,8 @@ body.loading > * {
 #timeline img {
   max-width: 14rem;
   cursor: pointer;
+  max-height: 60vh;
+  margin: 0 auto;
 }
 
 .era {
