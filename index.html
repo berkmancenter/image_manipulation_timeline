@@ -133,7 +133,8 @@
   </head>
 
   <body class="page-home loading" v-scope @vue:mounted="onLoad">
-    <div id="topBar">
+    <div id="loading">...</div>
+    <header id="topBar">
       <a href="#about" id="link-about"> /about </a>
       <a id="link-home" href="#home" aria-label="home">
         <svg viewBox="0 96 960 960" width="32" height="32" aria-hidden="true">
@@ -141,7 +142,7 @@
         </svg>
       </a>
       <button id="link-menu" @click="state.toggleMobileMenu">menu</button>
-    </div>
+    </header>
 
     <div id="container" class="activeEra1">
       <div id="eraMenu" style="display: none">
@@ -156,15 +157,15 @@
         </a>
       </div>
 
-      <div id="page-about">
+      <main id="page-about">
         <div class="title orangeBacked box">
           How did we get here? Image manipulation, from darkroom to AI
         </div>
         <div id="aboutContent" class="box yellowBacked" v-html="s.about"></div>
         <div class="gridded background"></div>
-      </div>
+      </main>
 
-      <div id="page-timeline">
+      <main id="page-timeline">
         <div id="mobile">
           <div id="mobileMenu" v-show="state.mobileMenuVisible">
             <a
@@ -323,9 +324,9 @@
             ></path>
           </svg>
         </button>
-      </div>
+      </main>
 
-      <div id="page-home">
+      <main id="page-home">
         <div class="gridded background"></div>
         <div class="box" id="hTitle">
           <h1>{{s.title}}</h1>
@@ -371,7 +372,7 @@
             ></path>
           </svg>
         </a>
-      </div>
+      </main>
       <div
         id="lightbox"
         v-show="Object.keys(state.selectedImage).length > 0"

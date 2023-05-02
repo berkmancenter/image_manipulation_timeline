@@ -11,12 +11,12 @@
 
 /** Fonts **/
 @font-face {
-    font-family: 'gloockregular';
-    src: url('gloock-regular-webfont.woff2') format('woff2'),
-         url('gloock-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'gloockregular';
+  src: url('gloock-regular-webfont.woff2') format('woff2'),
+        url('gloock-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 h1, h2, h3, h4, h5, h6, #link-about, #link-menu, .title {
   font-family: 'gloockregular';
@@ -110,8 +110,18 @@ img {
 /** End Paging **/
 
 /** Loading **/
-body.loading > * {
+#loading {
+  font-family: gloockregular;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 2rem;
+  width: 100%;
+}
+body.loading > *:not(#loading) {
   display: none !important;
+}
+body:not(.loading) #loading {
+  display: none;
 }
 /** End Loading **/
 
