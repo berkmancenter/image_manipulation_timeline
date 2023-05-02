@@ -54,6 +54,17 @@ html:hover img {
 }
 button {
   font-family: "Times New Roman", "serif";
+  background: transparent;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  cursor: pointer;
+  display: block;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  display: inline-flex;
+  line-height: 1.5;
 }
 a {
   color: black;
@@ -98,29 +109,20 @@ img {
 }
 /** End Paging **/
 
+/** Loading **/
+body.loading > * {
+  display: none !important;
+}
+/** End Loading **/
+
+
 /** Page-specific changes **/
 .page-about #eraMenu{
   display: none;
 }
 .page-about #topBar{
   background-color: var(--magenta);
-  /*border: 2px solid black;
-  border-width: 2px 0;
-  box-sizing: border-box;
-  */
 }
-/*
-.page-about .background {
-  height: calc(100vh - 2rem);
-  width: calc(var(--unit) * var(--ncols) + 1px);
-  overflow: hidden;
-  z-index: -1;
-  position: absolute;
-  top: 2rem;
-  margin: 0;
-  padding: 0;
-}
-*/
 .page-about .title {
   width: calc(var(--ncols) * 1rem - 2rem);
   height: calc(1rem + 1px);
@@ -145,18 +147,6 @@ img {
 .page-home p:first-child {
   margin-top: 0.2rem;
 }
-/*
-.page-home .background {
-  height: calc(90rem + 1px);
-  width: calc(var(--unit) * var(--ncols) + 1px);
-  overflow: hidden;
-  z-index: -1;
-  position: absolute;
-  top: 2rem;
-  margin: 0;
-  padding: 0;
-}
-*/
 #page-timeline {
   display: grid;
   grid-template-columns: 12rem 1fr;
@@ -357,8 +347,8 @@ img {
   display: inline-block;
   text-align: center;
 }
-.tag {
-  cursor: pointer;
+#context .box.tag {
+  padding: 0.25em 0.1em;
 }
 .tag.selected {
   border-right-width: 1px !important;
@@ -388,7 +378,7 @@ img {
 }
 #bigYear {
   position: fixed;
-  top: 50vh;
+  top: 35vh;
   left: 0;
   z-index: 5;
   font-family: gloockregular;
@@ -421,10 +411,11 @@ img {
 .imageThumb {
   border: 1px solid black;
   box-sizing: border-box;
-  width: calc(10rem / 6);
+  max-width: calc(10rem / 6);
   height: calc(10rem / 6);
   cursor: pointer;
-  /*transition: transform 20ms linear;*/
+  background: transparent;
+  padding: 0;
 }
 #nav .imageContainer:not(:last-child) .imageThumb:nth-last-child(-n+6) {
   border-bottom-width: 0;
@@ -570,6 +561,14 @@ canvas {
   right: 1rem; 
   color: white;
 }
+#lightboxClose {
+  display: block;
+  color: white;
+  text-decoration: underline;
+  width: 4rem;
+  margin: 0 auto;
+  text-align: center;
+}
 
 /** Mobile stuff **/
 #link-menu {
@@ -591,7 +590,8 @@ canvas {
 
 @media (max-width: 960px) {
   .page-timeline #link-menu {
-    display: inline;
+    display: inline-flex;
+    width: auto;
   }
   #topBar {
     border-bottom: 2px solid black;

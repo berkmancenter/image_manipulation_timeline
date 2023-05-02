@@ -41,6 +41,8 @@ function ensureCanvas(el) {
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
 
+  canvas.setAttribute('aria-label', 'Pixelated background');
+
   // Scale the context to ensure correct drawing operations
   ctx.scale(dpr, dpr);
 

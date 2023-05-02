@@ -1,7 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta
+      name="description"
+      content="Are Images Real? - A tour of visual manipulation from darkroom to AI"
+    />
+    <title>
+      Are Images Real? - A tour of visual manipulation from darkroom to AI
+    </title>
     <link rel="stylesheet" href="style.css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
@@ -22,7 +30,11 @@
         } else {
           newPage = currentPage();
         }
-        document.querySelector("body").setAttribute("class", `page-${newPage}`);
+        const classes = document.getElementsByTagName("body")[0].classList;
+        classes.remove(
+          Array.from(classes).filter((c) => c.startsWith("page-"))
+        );
+        classes.add(`page-${newPage}`);
         scrollTo(0, 0);
         gridify(false, gridSize);
       }
@@ -113,28 +125,22 @@
           .on("leave", onLeave)
           .addTo(controller);
       }
-      /*
-      addEventListener("wheel", (e) => {
-        if (currentPage() !== "timeline") {
-          return;
-        }
-        document
-          .getElementById("timeline")
-          .scrollBy({ top: e.deltaY, behavior: "auto" });
-      });
-      */
+      function onLoad() {
+        document.querySelector("body").classList.remove("loading");
+        gridify(false, gridSize);
+      }
     </script>
   </head>
 
-  <body class="page-home" v-scope>
+  <body class="page-home loading" v-scope @vue:mounted="onLoad">
     <div id="topBar">
       <a href="#about" id="link-about"> /about </a>
-      <a id="link-home" href="#home">
-        <svg viewBox="0 96 960 960" width="32" height="32">
+      <a id="link-home" href="#home" aria-label="home">
+        <svg viewBox="0 96 960 960" width="32" height="32" aria-hidden="true">
           <path d="M160 936V456l320-240 320 240v480H560V656H400v280H160Z" />
         </svg>
       </a>
-      <a id="link-menu" @click="state.toggleMobileMenu">menu</a>
+      <button id="link-menu" @click="state.toggleMobileMenu">menu</button>
     </div>
 
     <div id="container" class="activeEra1">
@@ -201,16 +207,17 @@
               {{state.currentEvent.year}}
             </div>
           </div>
-          <div id="nav">
+          <nav id="nav">
             <div id="context">
               <div id="legend" class="box">
-                <div
+                <button
                   v-for="tag in tags"
                   :class="['tag', 'box', {selected: state.selectedTags.includes(tag.tag) }]"
                   @click="state.toggleTag(tag.tag)"
+                  tabindex="0"
                 >
                   <span class="tagIcon">{{tag.icon}}</span>{{tag.name}}
-                </div>
+                </button>
               </div>
             </div>
 
@@ -221,22 +228,26 @@
             >
               <div class="imageGrid box">
                 <div class="eraName">{{era.slug}}</div>
-                <div
+                <button
                   v-for="(event, i) in eraEvents(era.era)"
                   :class="['imageThumb', { showing: event.id === state.currentEvent.id}]"
                   :id="`thumb-event${event.id}`"
+                  :aria-label="`Jump to ${event.title}`"
+                  tabindex="0"
                   @click="jumpToEvent(event)"
+                  @keyup.enter="jumpToEvent(event)"
                   @mouseenter="state.setHoveredEvent(event)"
                   @mouseleave="state.setHoveredEvent({})"
                 >
                   <img
                     :src="event.image_url"
                     :class="{hidden: !hasSelectedTag(event)}"
+                    :alt="event.title"
                   />
-                </div>
+                </button>
               </div>
             </div>
-          </div>
+          </nav>
         </div>
 
         <div id="timeline" class="box">
@@ -257,12 +268,14 @@
                   class="event"
                   @vue:mounted="setupEvent(event)"
                 >
-                  <div
+                  <button
                     class="eventImage"
+                    tabindex="0"
                     @click="state.setSelectedImage(event.image_url)"
+                    @keyup.enter="state.setSelectedImage(event.image_url)"
                   >
-                    <img :src="event.image_url" />
-                  </div>
+                    <img :src="event.image_url" :alt="event.title" />
+                  </button>
                   <div class="eventData">
                     <div class="eventTitle">
                       {{event.title}}
@@ -278,13 +291,15 @@
           </div>
         </div>
         <div class="gridded background"></div>
-        <a
+        <button
           id="link-eraTop"
           class="box"
           v-show="!!state.currentEvent.year"
           @click.prevent="jumpToEra(state.currentEvent.era)"
+          @keyup.enter="jumpToEra(state.currentEvent.era)"
+          title="Jump to top of era"
         >
-          <svg>
+          <svg aria-hidden="true">
             <defs>
               <marker
                 id="head"
@@ -307,7 +322,7 @@
               d="M18,30, 18 14"
             ></path>
           </svg>
-        </a>
+        </button>
       </div>
 
       <div id="page-home">
@@ -323,11 +338,16 @@
         </div>
         <div class="box" id="hOverview" v-html="s.overview"></div>
         <div class="box" id="hExample">
-          <img :src="s.example_img" />
+          <img :src="s.example_img" :alt="s.example_img_alt" />
           <p>{{s.example}}</p>
         </div>
-        <a href="#timeline" id="startTimeline" class="box">
-          <svg>
+        <a
+          href="#timeline"
+          id="startTimeline"
+          class="box"
+          aria-label="view timeline"
+        >
+          <svg aria-hidden="true">
             <defs>
               <marker
                 id="rightHead"
@@ -356,8 +376,17 @@
         id="lightbox"
         v-show="Object.keys(state.selectedImage).length > 0"
         @click="state.setSelectedImage(null)"
+        @keyup.enter="state.setSelectedImage(null)"
       >
-        <img :src="state.selectedImage.src" />
+        <img v-if="!!state.selectedImage.src" :src="state.selectedImage.src" />
+        <button
+          id="lightboxClose"
+          @click="state.setSelectedImage(null)"
+          tabindex="0"
+          @keyup.enter="state.setSelectedImage(null)"
+        >
+          Close
+        </button>
       </div>
       <div
         id="bigYear"
@@ -398,6 +427,7 @@
             this.selectedImage = {};
           } else {
             this.selectedImage = { src: url };
+            document.getElementById("lightboxClose").focus();
           }
         },
         mobileMenuVisible: false,
@@ -461,7 +491,6 @@
           },
         }).mount();
 
-        gridify(false, gridSize);
         addEventListener("hashchange", () => setPage());
         setPage();
       }
