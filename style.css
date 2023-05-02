@@ -44,7 +44,7 @@ body {
 }
 body {
   font-size: 18px;
-  line-height: 1.5em;
+  line-height: 1.5;
 }
 html {
   transition: transform 1s ease-in;
@@ -61,17 +61,16 @@ a {
 h1 {
   font-size: 2.0rem;
   text-align: center;
-  margin-top: 1.8rem;
+  margin-top: 1rem;
+  line-height: 1.2;
 }
 h2 {
   font-size: 1.2rem;
   text-align: center;
-  margin-top: 0.7rem;
+  margin-top: 0.1rem;
+  line-height: 1.2;
 }
 img {
-}
-p:first-child {
-  margin-top: 0.2rem;
 }
 .hidden {
   display: none;
@@ -110,6 +109,7 @@ p:first-child {
   box-sizing: border-box;
   */
 }
+/*
 .page-about .background {
   height: calc(100vh - 2rem);
   width: calc(var(--unit) * var(--ncols) + 1px);
@@ -120,6 +120,7 @@ p:first-child {
   margin: 0;
   padding: 0;
 }
+*/
 .page-about .title {
   width: calc(var(--ncols) * 1rem - 2rem);
   height: calc(1rem + 1px);
@@ -128,7 +129,7 @@ p:first-child {
   margin-bottom: -2px;
 }
 
-.page-timeline .background {
+.page-about .background, .page-timeline .background, .page-home .background {
   height: 100vh;
   width: calc(var(--unit) * var(--ncols) + 1px);
   overflow: hidden;
@@ -141,6 +142,10 @@ p:first-child {
 .page-home #container {
   padding-top: 1rem;
 }
+.page-home p:first-child {
+  margin-top: 0.2rem;
+}
+/*
 .page-home .background {
   height: calc(90rem + 1px);
   width: calc(var(--unit) * var(--ncols) + 1px);
@@ -151,6 +156,7 @@ p:first-child {
   margin: 0;
   padding: 0;
 }
+*/
 #page-timeline {
   display: grid;
   grid-template-columns: 12rem 1fr;
@@ -188,6 +194,54 @@ p:first-child {
   box-sizing: border-box;
 }
 /** End Containers **/
+
+/** Home page (h prefix) **/
+#hTitle {
+  width: calc(24rem + 1px);
+  margin-left: 1rem;
+  margin-top: 0rem;
+  height: calc(5rem + 1px);
+}
+#hSubtitle {
+  width: calc(28rem + 1px);
+  margin-left: 2rem;
+  margin-top: calc(1rem - 1px);
+  height: calc(4rem + 1px);
+}
+#hEnticement {
+  width: calc(21rem + 1px);
+  margin-left: 8rem;
+  margin-top: calc(2rem - 1px);
+  height: calc(5rem + 1px);
+  padding-top: 0.1rem;
+}
+#hOverview {
+  width: calc(21rem + 1px);
+  margin-left: 4rem;
+  margin-top: calc(4rem - 1px);
+  height: calc(51rem + 1px);
+}
+#hExample {
+  width: calc(28rem + 1px);
+  margin-left: 2rem;
+  margin-top: calc(2rem - 1px);
+  margin-bottom: 1rem;
+  height: calc(14rem + 1px);
+}
+#hExample img {
+  display: inline-block;
+  width: 40%;
+  vertical-align: top;
+  margin-top: 1rem;
+}
+#hExample p {
+  display: inline-block;
+  width: 48%;
+  border-left: 2px solid black;
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin-left: 1rem;
+}
+/** End Home page **/
 
 /** Era menu **/
 #eraMenu {
@@ -462,6 +516,10 @@ canvas {
   top: 0;
   z-index: -1;
 }
+#aboutContent {
+  margin-left: 12rem;
+  width: 18rem;
+}
 
 #startTimeline {
   width: calc(3rem + 2px);
@@ -469,9 +527,9 @@ canvas {
   padding: 0;
   position: relative;
   display: inline-block;
-  right: -30rem;
-  bottom: calc(3rem + 1px);
+  bottom: calc(2rem + 1px);
   overflow: hidden;
+  left: calc(100% - 4rem - 1px);
 }
 #startTimeline svg {
   width: 3rem;
@@ -550,7 +608,7 @@ canvas {
   #fixedContent {
     display: none;
   }
-  #page-timeline {
+  #page-timeline, #page-about, #page-home {
     display: block;
     width: 100%;
     min-width: 250px;
@@ -572,8 +630,13 @@ canvas {
     padding: 0;
     cursor: pointer;
   }
-  .background {
+  .page-timeline .background {
     display: none;
+  }
+  .background {
+    margin-left: -1rem !important;
+    top: 1.5rem !important;
+    width: 100% !important;
   }
   #mobileContext {
     height: 2rem;
@@ -614,6 +677,44 @@ canvas {
     padding: 0.4em 1em;
     text-decoration: none;
     border-bottom: 1px solid black;
+  }
+
+  #aboutContent {
+    margin-left: 0;
+    width: auto;
+    border-top: 0;
+  }
+  .page-about .title {
+    width: auto;
+    height: auto;
+    margin: 0 -1rem;
+    border-width: 0 0 2px 0;
+  }
+  #hTitle, #hSubtitle, #hEnticement, #hOverview, #hExample {
+    width: auto;
+    margin-left: 0rem;
+    margin-top: 0rem;
+    height: auto;
+    border-bottom: 0px;
+  }
+  #hExample {
+    border-bottom: 2px solid black;
+  }
+  #hExample img {
+    display: block;
+    margin-top: 1rem;
+    width: auto;
+    max-width: 100%;
+  }
+  #hExample p {
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 1rem 0;
+    width: auto;
+  }
+  #startTimeline {
+    left: calc(100% - 3rem - 2px);
   }
 }
 /** End Mobile stuff **/

@@ -154,11 +154,7 @@
         <div class="title orangeBacked box">
           How did we get here? Image manipulation, from darkroom to AI
         </div>
-        <div
-          class="box yellowBacked"
-          style="margin-left: 12rem; width: 18rem"
-          v-html="s.about"
-        ></div>
+        <div id="aboutContent" class="box yellowBacked" v-html="s.about"></div>
         <div class="gridded background"></div>
       </div>
 
@@ -316,88 +312,25 @@
 
       <div id="page-home">
         <div class="gridded background"></div>
-        <div
-          class="box"
-          style="
-            width: calc(24rem + 2px);
-            margin-left: 1rem;
-            margin-top: 0rem;
-            height: calc(5rem + 1px);
-          "
-        >
+        <div class="box" id="hTitle">
           <h1>{{s.title}}</h1>
         </div>
-        <div
-          class="box"
-          style="
-            width: calc(28rem + 2px);
-            margin-left: 2rem;
-            margin-top: calc(1rem - 1px);
-            height: calc(3rem + 1px);
-          "
-        >
+        <div class="box" id="hSubtitle">
           <h2>{{s.subtitle}}</h2>
         </div>
-        <div
-          class="box"
-          style="
-            width: calc(21rem + 2px);
-            margin-left: 8rem;
-            margin-top: calc(2rem - 1px);
-            height: calc(5rem + 1px);
-            padding-top: 0.1rem;
-          "
-        >
+        <div class="box" id="hEnticement">
           <p v-html="s.enticement"></p>
         </div>
-
-        <div
-          class="box"
-          style="
-            width: calc(21rem + 2px);
-            margin-left: 4rem;
-            margin-top: calc(4rem - 1px);
-            height: calc(51rem + 1px);
-          "
-          v-html="s.overview"
-        ></div>
-
-        <div
-          class="box"
-          style="
-            width: calc(28rem + 2px);
-            margin-left: 2rem;
-            margin-top: calc(2rem - 1px);
-            margin-bottom: 1rem;
-            height: calc(14rem + 1px);
-          "
-        >
-          <img
-            :src="s.example_img"
-            style="
-              display: inline-block;
-              width: 40%;
-              vertical-align: top;
-              margin-top: 1rem;
-            "
-          />
-          <p
-            style="
-              display: inline-block;
-              width: 48%;
-              border-left: 2px solid black;
-              padding: 0.5rem 0 0.5rem 1rem;
-              margin-left: 1rem;
-            "
-          >
-            {{s.example}}
-          </p>
+        <div class="box" id="hOverview" v-html="s.overview"></div>
+        <div class="box" id="hExample">
+          <img :src="s.example_img" />
+          <p>{{s.example}}</p>
         </div>
         <a href="#timeline" id="startTimeline" class="box">
           <svg>
             <defs>
               <marker
-                id="head"
+                id="rightHead"
                 orient="auto"
                 markerWidth="3"
                 markerHeight="4"
@@ -410,7 +343,7 @@
 
             <path
               id="arrow-line"
-              marker-end="url(#head)"
+              marker-end="url(#rightHead)"
               fill="none"
               stroke="black"
               stroke-width="3"
