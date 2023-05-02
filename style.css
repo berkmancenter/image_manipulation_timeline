@@ -575,6 +575,7 @@ canvas {
 #link-menu {
   cursor: pointer;
   display: none;
+  text-decoration: underline;
 }
 
 #mobile {
