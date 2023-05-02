@@ -630,9 +630,6 @@ canvas {
     padding: 0;
     cursor: pointer;
   }
-  .page-timeline .background {
-    display: none;
-  }
   .background {
     margin-left: -1rem !important;
     top: 1.5rem !important;
