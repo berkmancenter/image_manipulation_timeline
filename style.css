@@ -360,7 +360,7 @@ body:not(.loading) #loading {
   text-align: center;
 }
 #context .box.tag {
-  padding: 0.25em 0.1em;
+  padding: 0.1em;
 }
 .tag.selected {
   border-right-width: 1px !important;
