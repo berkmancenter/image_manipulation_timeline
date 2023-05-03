@@ -775,6 +775,8 @@ canvas {
   #hButtons {
     border-top: 2px solid black;
     display: flex;
+    font-size: 0.8em;
+    line-height: 2rem;
   }
   .hButton {
     position: initial;
