@@ -294,7 +294,7 @@ body:not(.loading) #loading {
 /** Timeline of events **/
 #timeline {
   width: calc(18rem + 2px);
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   scrollbar-width: none;
 }
 #timeline img {
@@ -313,7 +313,7 @@ body:not(.loading) #loading {
   position: sticky;
   top: 2rem;
   margin-top: calc(-1rem - 2px);
-  width: 18rem;
+  width: 18.5rem;
   margin-left: -1rem;
 }
 
@@ -328,6 +328,21 @@ body:not(.loading) #loading {
 }
 .event {
   margin: 3rem 0rem;
+  padding: 0.5rem;
+}
+.event.active {
+  border-radius: 0.3rem;
+  border: 0.5rem solid var(--yellow);
+  border-width: 0.5rem 0;
+}
+.activeEra1 .event.active {
+  border-color: var(--yellow);
+}
+.activeEra2 .event.active {
+  border-color: var(--orange);
+}
+.activeEra3 .event.active {
+  border-color: var(--magenta);
 }
 .eventImage {
   margin-bottom: 0.5rem;

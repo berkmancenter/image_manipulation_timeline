@@ -92,7 +92,7 @@
         }
         setEraActive(era);
       }
-      function setupEraScrolling(era) {
+      function setupEraScrolling(era, onEnter, onLeave) {
         const el = document.getElementById(`era${era.era}`);
         scene = new ScrollMagic.Scene({
           triggerElement: el,
@@ -103,10 +103,11 @@
         scene
           //.addIndicators()
           .on("enter", () => {
-            if (el.clientHeight > 0) {
-              setEraActive(era.era);
+            if (window.scrollY > 0 && el.clientHeight > 0) {
+              onEnter(era, el);
             }
           })
+          .on("leave", onLeave)
           .addTo(controller);
       }
       function setupEventScrolling(event, onEnter, onLeave) {
@@ -120,7 +121,7 @@
         scene
           //.addIndicators()
           .on("enter", () => {
-            if (el.clientHeight > 0) {
+            if (window.scrollY > 0 && el.clientHeight > 0) {
               onEnter(event, el);
             }
           })
@@ -146,7 +147,7 @@
       <button id="link-menu" @click="state.toggleMobileMenu">menu</button>
     </header>
 
-    <div id="container" class="activeEra1">
+    <div id="container" :class="`activeEra${state.currentEra}`">
       <div id="eraMenu" style="display: none">
         <a
           href="#timeline"
@@ -260,7 +261,7 @@
               v-for="era in eras"
               class="era"
               :id="`era${era.era}`"
-              @vue:mounted="setupEraScrolling(era)"
+              @vue:mounted="setupEra(era)"
             >
               <h4>PART {{era.era}}</h4>
               <h3>{{era.title}}</h3>
@@ -268,7 +269,7 @@
                 <li
                   v-for="event in eraEvents(era.era)"
                   :id="`event${event.id}`"
-                  class="event"
+                  :class="['event', {active: event.id === state.currentEvent.id}]"
                   @vue:mounted="setupEvent(event)"
                 >
                   <button
@@ -401,6 +402,10 @@
     <script type="module">
       import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
       const state = reactive({
+        currentEra: "1",
+        setCurrentEra: function (era) {
+          this.currentEra = era;
+        },
         currentEvent: {},
         setCurrentEvent: function (event) {
           this.currentEvent = event;
@@ -480,10 +485,17 @@
           },
           activateEvent(event, el) {
             this.state.setCurrentEvent(event);
+            this.state.setCurrentEra(event.era);
             /* Sometimes this event runs even though the events are hidden.
             Just don't do that. */
             eventScenes[event.id].duration(el.clientHeight + gridSize * 3);
-            setEraDurations();
+          },
+          setupEra(era) {
+            setupEraScrolling(era, this.activateEra);
+          },
+          activateEra(era, el) {
+            this.state.setCurrentEra(era.era);
+            eraScenes[era.era].duration(el.clientHeight + gridSize * 3);
           },
           hasSelectedTag(event) {
             if (this.state.selectedTags.length === 0) {
