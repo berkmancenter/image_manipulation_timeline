@@ -1,8 +1,11 @@
 /** Variables **/
 :root {
   --yellow: #fef287;
+  --lightYellow: #fffdef;
   --orange: #ffcd93;
+  --lightOrange: #fff9f2;
   --magenta: #f5b7ff;
+  --lightMagenta: #fdf4ff;
   --unit: 32px;
   --ncols: 32;
   font-size: var(--unit);
@@ -218,7 +221,7 @@ body:not(.loading) #loading {
 #hOverview {
   width: calc(21rem + 1px);
   margin-left: 4rem;
-  margin-top: calc(4rem - 1px);
+  margin-top: calc(3rem - 1px);
   height: calc(51rem + 1px);
 }
 #hExample {
@@ -294,7 +297,7 @@ body:not(.loading) #loading {
 /** Timeline of events **/
 #timeline {
   width: calc(18rem + 2px);
-  padding: 1rem 0.5rem;
+  padding: 1rem 0rem;
   scrollbar-width: none;
 }
 #timeline img {
@@ -302,6 +305,9 @@ body:not(.loading) #loading {
   cursor: pointer;
   max-height: 60vh;
   margin: 0 auto;
+}
+#timeline h3, #timeline h4 {
+  padding: 0 1rem;
 }
 
 .era {
@@ -313,7 +319,7 @@ body:not(.loading) #loading {
   position: sticky;
   top: 2rem;
   margin-top: calc(-1rem - 2px);
-  width: 18.5rem;
+  width: 19rem;
   margin-left: -1rem;
 }
 
@@ -328,8 +334,18 @@ body:not(.loading) #loading {
 }
 .event {
   margin: 3rem 0rem;
-  padding: 0.5rem;
+  padding: 1rem;
 }
+.activeEra1 .event.active {
+  background: var(--lightYellow);
+}
+.activeEra2 .event.active {
+  background: var(--lightOrange);
+}
+.activeEra3 .event.active {
+  background: var(--lightMagenta);
+}
+/*
 .event.active {
   border-radius: 0.3rem;
   border: 0.5rem solid var(--yellow);
@@ -344,6 +360,7 @@ body:not(.loading) #loading {
 .activeEra3 .event.active {
   border-color: var(--magenta);
 }
+*/
 .eventImage {
   margin-bottom: 0.5rem;
   text-align: center;
@@ -551,7 +568,8 @@ canvas {
   left: calc(100% - 4rem - 1px);
 }
 #startTimeline svg {
-  width: 3rem;
+  width: 1.5rem;
+  margin-left: 0.75rem;
   height: 3rem;
 }
 
@@ -596,6 +614,37 @@ canvas {
   width: 4rem;
   margin: 0 auto;
   text-align: center;
+}
+
+.hButton {
+  display: inline-block;
+  height: 2rem;
+  position: relative;
+  top: calc(3rem - 1px);
+  border-bottom-width: 0px;
+  padding: 0;
+  line-height: 1.9rem;
+  text-align: center;
+}
+#jumpToTimeline {
+  width: calc(6rem + 1px);
+  background: var(--yellow);
+  left: calc(14rem - 5px);
+  text-decoration: none;
+}
+#jumpToTimeline svg {
+  vertical-align: middle;
+  margin-left: 0.2em;
+}
+#introPointer {
+  width: calc(5rem + 1px);
+  background: var(--orange);
+  left: 4rem;
+}
+#introPointer svg {
+  transform: rotate(90deg);
+  vertical-align: middle;
+  margin-right: 0.2em;
 }
 
 /** Mobile stuff **/
@@ -722,6 +771,18 @@ canvas {
     margin-top: 0rem;
     height: auto;
     border-bottom: 0px;
+  }
+  #hButtons {
+    border-top: 2px solid black;
+    display: flex;
+  }
+  .hButton {
+    position: initial;
+    border-top-width: 0;
+    overflow: hidden;
+  }
+  #jumpToTimeline {
+    margin-left: auto;
   }
   #hExample {
     border-bottom: 2px solid black;

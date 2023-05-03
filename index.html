@@ -340,6 +340,36 @@
         <div class="box" id="hEnticement">
           <p v-html="s.enticement"></p>
         </div>
+        <div id="hButtons">
+          <div class="box hButton" id="introPointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 96 960 960"
+              height="26"
+              width="26"
+              aria-hidden
+            >
+              <path
+                d="m561 814-43-42 168-168H60v-60h626L517 375l43-42 241 241-240 240Z"
+              ></path>
+            </svg>
+            Introduction
+          </div>
+          <a href="#timeline" class="box hButton" id="jumpToTimeline">
+            Jump to timeline
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 96 960 960"
+              height="26"
+              width="26"
+              aria-hidden
+            >
+              <path
+                d="m561 814-43-42 168-168H60v-60h626L517 375l43-42 241 241-240 240Z"
+              ></path>
+            </svg>
+          </a>
+        </div>
         <div class="box" id="hOverview" v-html="s.overview"></div>
         <div class="box" id="hExample">
           <img :src="s.example_img" :alt="s.example_img_alt" />
@@ -351,28 +381,16 @@
           class="box"
           title="Jump to timeline"
         >
-          <svg aria-hidden="true">
-            <defs>
-              <marker
-                id="rightHead"
-                orient="auto"
-                markerWidth="3"
-                markerHeight="4"
-                refX="0.1"
-                refY="2"
-              >
-                <path d="M0,0 V4 L2,2 Z" fill="black" />
-              </marker>
-            </defs>
-
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 96 960 960"
+            height="26"
+            width="26"
+            aria-hidden="true"
+          >
             <path
-              id="arrow-line"
-              marker-end="url(#rightHead)"
-              fill="none"
-              stroke="black"
-              stroke-width="3"
-              d="M20,45, 65 45"
-            ></path>
+              d="m702 755-43-42 106-106H60v-60h706L660 441l42-42 178 178-178 178Z"
+            />
           </svg>
         </a>
       </main>
