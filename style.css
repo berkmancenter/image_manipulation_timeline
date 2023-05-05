@@ -71,6 +71,10 @@ button {
 }
 a {
   color: black;
+  transition: box-shadow .3s ease;
+}
+a:hover {
+  text-decoration: none;
 }
 h1 {
   font-size: 2.0rem;
@@ -83,8 +87,6 @@ h2 {
   text-align: center;
   margin-top: 0.1rem;
   line-height: 1.2;
-}
-img {
 }
 .hidden {
   display: none;
@@ -300,14 +302,18 @@ body:not(.loading) #loading {
   padding: 1rem 0rem;
   scrollbar-width: none;
 }
+#timeline a:hover {
+  box-shadow: inset 20rem 0 0 0 white;
+}
 #timeline img {
-  max-width: 14rem;
+  max-width: 9rem;
   cursor: pointer;
-  max-height: 60vh;
-  margin: 0 auto;
+  max-height: 45vh;
+  margin: 0;
 }
 #timeline h3, #timeline h4 {
   padding: 0 1rem;
+  font-size: 1.8em;
 }
 
 .era {
@@ -336,6 +342,10 @@ body:not(.loading) #loading {
   margin: 3rem 0rem;
   padding: 1rem;
 }
+.event:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
 .activeEra1 .event.active {
   background: var(--lightYellow);
 }
@@ -363,15 +373,27 @@ body:not(.loading) #loading {
 */
 .eventImage {
   margin-bottom: 0.5rem;
-  text-align: center;
+  text-align: left;
 }
 .eventTitle {
   font-family: "gloockregular", serif;
   font-size: 0.7rem;
+  margin-bottom: 1em;
 }
 .eventTitle .tagIcon {
   padding: 0 0.1em;
 }
+
+.activeEra1 #timeline a:hover {
+  box-shadow: inset 30rem 0 0 0 var(--yellow);
+}
+.activeEra2 #timeline a:hover {
+  box-shadow: inset 30rem 0 0 0 var(--orange);
+}
+.activeEra3 #timeline a:hover {
+  box-shadow: inset 30rem 0 0 0 var(--magenta);
+}
+
 /** End Timeline of events **/
 
 /** Event context **/
@@ -393,6 +415,10 @@ body:not(.loading) #loading {
 }
 #context .box.tag {
   padding: 0.1em;
+}
+#context .box.tag:hover {
+  padding: 0.1em;
+  filter:invert();
 }
 .tag.selected {
   border-right-width: 1px !important;
@@ -572,6 +598,9 @@ canvas {
   margin-left: 0.75rem;
   height: 3rem;
 }
+#startTimeline:hover {
+  filter: invert();
+}
 
 
 #fixedContent {
@@ -635,6 +664,13 @@ canvas {
 #jumpToTimeline svg {
   vertical-align: middle;
   margin-left: 0.2em;
+}
+#jumpToTimeline:hover {
+  background: black !important;
+  color: white;
+}
+#jumpToTimeline:hover svg {
+  filter: invert();
 }
 #introPointer {
   width: calc(5rem + 1px);

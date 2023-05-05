@@ -161,9 +161,7 @@
       </div>
 
       <main id="page-about">
-        <div class="title orangeBacked box">
-          How did we get here? Image manipulation, from darkroom to AI
-        </div>
+        <div class="title orangeBacked box" v-html="s.about_title"></div>
         <div id="aboutContent" class="box yellowBacked" v-html="s.about"></div>
         <div class="gridded background"></div>
       </main>
@@ -269,24 +267,24 @@
                 <li
                   v-for="event in eraEvents(era.era)"
                   :id="`event${event.id}`"
-                  :class="['event', {active: event.id === state.currentEvent.id}]"
+                  :class="['event']"
                   @vue:mounted="setupEvent(event)"
                 >
-                  <button
-                    class="eventImage"
-                    tabindex="0"
-                    @click="state.setSelectedImage(event.image_url)"
-                    @keyup.enter="state.setSelectedImage(event.image_url)"
-                  >
-                    <img :src="event.image_url" :alt="event.title" />
-                  </button>
                   <div class="eventData">
                     <div class="eventTitle">
-                      {{event.title}}
+                      {{event.year}} &ndash; {{event.title}}
                       <span v-for="tag in event.tags" class="tagIcon"
                         >{{tag.icon}}</span
                       >
                     </div>
+                    <button
+                      class="eventImage"
+                      tabindex="0"
+                      @click="state.setSelectedImage(event.image_url)"
+                      @keyup.enter="state.setSelectedImage(event.image_url)"
+                    >
+                      <img :src="event.image_url" :alt="event.title" />
+                    </button>
                     <p class="eventText" v-html="event.text"></p>
                   </div>
                 </li>
