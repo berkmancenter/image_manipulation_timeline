@@ -233,7 +233,7 @@ body:not(.loading) #loading {
   width: calc(21rem + 1px);
   margin-left: 4rem;
   margin-top: calc(3rem - 1px);
-  height: calc(51rem + 1px);
+  height: calc(65 + 1px);
 }
 #hExample {
   width: calc(28rem + 1px);
