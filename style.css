@@ -184,6 +184,15 @@ body:not(.loading) #loading {
 #topBar > * {
   margin-top: 0.6rem;
 }
+#homeHover {
+  display: none;
+}
+#link-home:hover #home {
+  display: none;
+}
+#link-home:hover #homeHover {
+  display: initial;
+}
 /** End Top bar **/
 
 /** Containers **/
